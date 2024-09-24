@@ -10,7 +10,7 @@
 
 using namespace std;
 
-// Номиналы банкнот
+// РќРѕРјРёРЅР°Р»С‹ Р±Р°РЅРєРЅРѕС‚
 enum Denomination {
     ONE = 1,
     FIVE = 5,
@@ -21,26 +21,26 @@ enum Denomination {
     THOUSAND = 1000
 };
 
-// Тип валюты
+// РўРёРї РІР°Р»СЋС‚С‹
 enum CurrencyType {
     RUB,
     USD,
     EUR
 };
 
-// Структура банкноты
+// РЎС‚СЂСѓРєС‚СѓСЂР° Р±Р°РЅРєРЅРѕС‚С‹
 struct Banknote {
-    CurrencyType type;  // Тип валюты
-    double rate;    // Курс к рублю
-    Denomination denomination; // Номинал
+    CurrencyType type;  // РўРёРї РІР°Р»СЋС‚С‹
+    double rate;    // РљСѓСЂСЃ Рє СЂСѓР±Р»СЋ
+    Denomination denomination; // РќРѕРјРёРЅР°Р»
 };
 
 /*
- * Подсчет общей суммы в рублях
+ * РџРѕРґСЃС‡РµС‚ РѕР±С‰РµР№ СЃСѓРјРјС‹ РІ СЂСѓР±Р»СЏС…
  *
- * @param vector<Banknote>& wallet ссылка на константный вектор объектов типа `Banknote`
+ * @param vector<Banknote>& wallet СЃСЃС‹Р»РєР° РЅР° РєРѕРЅСЃС‚Р°РЅС‚РЅС‹Р№ РІРµРєС‚РѕСЂ РѕР±СЉРµРєС‚РѕРІ С‚РёРїР° `Banknote`
  *
- * @return Возвращает подсчитанную сумму в рублях
+ * @return Р’РѕР·РІСЂР°С‰Р°РµС‚ РїРѕРґСЃС‡РёС‚Р°РЅРЅСѓСЋ СЃСѓРјРјСѓ РІ СЂСѓР±Р»СЏС…
  */
 double calculateTotalInRoubles(const vector<Banknote>& wallet) {
     double sum = 0.0;
@@ -51,9 +51,9 @@ double calculateTotalInRoubles(const vector<Banknote>& wallet) {
 }
 
 /*
- * Вывод сгенерированных банкнот
+ * Р’С‹РІРѕРґ СЃРіРµРЅРµСЂРёСЂРѕРІР°РЅРЅС‹С… Р±Р°РЅРєРЅРѕС‚
  *
- * @param vector<Banknote>& wallet ссылка на константный вектор объектов типа `Banknote`
+ * @param vector<Banknote>& wallet СЃСЃС‹Р»РєР° РЅР° РєРѕРЅСЃС‚Р°РЅС‚РЅС‹Р№ РІРµРєС‚РѕСЂ РѕР±СЉРµРєС‚РѕРІ С‚РёРїР° `Banknote`
  */
 void printBanknotes(const vector<Banknote>& wallet) {
     cout << "Banknotes:" << endl;
@@ -75,10 +75,10 @@ void printBanknotes(const vector<Banknote>& wallet) {
 }
 
 /*
- * Вывод сгенерированных банкнот
+ * Р’С‹РІРѕРґ СЃРіРµРЅРµСЂРёСЂРѕРІР°РЅРЅС‹С… Р±Р°РЅРєРЅРѕС‚
  *
- * @param vector<Banknote>& wallet ссылка на константный вектор объектов типа `Banknote`
- * @param Denomination filterValue значение по которому происходит срез
+ * @param vector<Banknote>& wallet СЃСЃС‹Р»РєР° РЅР° РєРѕРЅСЃС‚Р°РЅС‚РЅС‹Р№ РІРµРєС‚РѕСЂ РѕР±СЉРµРєС‚РѕРІ С‚РёРїР° `Banknote`
+ * @param Denomination filterValue Р·РЅР°С‡РµРЅРёРµ РїРѕ РєРѕС‚РѕСЂРѕРјСѓ РїСЂРѕРёСЃС…РѕРґРёС‚ СЃСЂРµР·
  */
 void filterBanknotesByDenomination(const vector<Banknote>& wallet, Denomination filterValue) {
     int countRUB = 0, countUSD = 0, countEUR = 0;
@@ -102,9 +102,9 @@ void filterBanknotesByDenomination(const vector<Banknote>& wallet, Denomination 
 }
 
 /*
- * Вывод состава кошелька, отсортированного по валютам и номиналам
+ * Р’С‹РІРѕРґ СЃРѕСЃС‚Р°РІР° РєРѕС€РµР»СЊРєР°, РѕС‚СЃРѕСЂС‚РёСЂРѕРІР°РЅРЅРѕРіРѕ РїРѕ РІР°Р»СЋС‚Р°Рј Рё РЅРѕРјРёРЅР°Р»Р°Рј
  *
- * @param vector<Banknote>& wallet ссылка на константный вектор объектов типа Banknote
+ * @param vector<Banknote>& wallet СЃСЃС‹Р»РєР° РЅР° РєРѕРЅСЃС‚Р°РЅС‚РЅС‹Р№ РІРµРєС‚РѕСЂ РѕР±СЉРµРєС‚РѕРІ С‚РёРїР° Banknote
  */
 void printWalletComposition(const vector<Banknote>& wallet) {
     map<pair<string, Denomination>, int> walletComposition;
@@ -131,14 +131,14 @@ void printWalletComposition(const vector<Banknote>& wallet) {
 }
 
 /*
- * Конвертация всех банкнот в рубли, используя банкноты с максимальным номиналом
+ * РљРѕРЅРІРµСЂС‚Р°С†РёСЏ РІСЃРµС… Р±Р°РЅРєРЅРѕС‚ РІ СЂСѓР±Р»Рё, РёСЃРїРѕР»СЊР·СѓСЏ Р±Р°РЅРєРЅРѕС‚С‹ СЃ РјР°РєСЃРёРјР°Р»СЊРЅС‹Рј РЅРѕРјРёРЅР°Р»РѕРј
  *
- * @param vector<Banknote>& wallet ссылка на константный вектор объектов типа Banknote
+ * @param vector<Banknote>& wallet СЃСЃС‹Р»РєР° РЅР° РєРѕРЅСЃС‚Р°РЅС‚РЅС‹Р№ РІРµРєС‚РѕСЂ РѕР±СЉРµРєС‚РѕРІ С‚РёРїР° Banknote
  */
 void convertToRoublesUsingMaxDenomination(const vector<Banknote>& wallet) {
     double totalInRoubles = calculateTotalInRoubles(wallet);
 
-    //Поиск максимального номинала
+    //РџРѕРёСЃРє РјР°РєСЃРёРјР°Р»СЊРЅРѕРіРѕ РЅРѕРјРёРЅР°Р»Р°
     Denomination maxDenomination = ONE; 
     for (const Banknote& note : wallet) {
         if (note.denomination > maxDenomination) {
@@ -146,7 +146,7 @@ void convertToRoublesUsingMaxDenomination(const vector<Banknote>& wallet) {
         }
     }
 
-    //Количество необходимых банкнот с максимальным номиналом
+    //РљРѕР»РёС‡РµСЃС‚РІРѕ РЅРµРѕР±С…РѕРґРёРјС‹С… Р±Р°РЅРєРЅРѕС‚ СЃ РјР°РєСЃРёРјР°Р»СЊРЅС‹Рј РЅРѕРјРёРЅР°Р»РѕРј
     int numOfNotes = static_cast<int>(ceil(totalInRoubles / static_cast<double>(maxDenomination)));
 
     cout << "\nTotal sum: " << fixed << setprecision(2) << totalInRoubles << " rub" << endl;
@@ -164,17 +164,17 @@ int main() {
 
     vector<Banknote> wallet(N);
 
-    // Массив валют
+    // РњР°СЃСЃРёРІ РІР°Р»СЋС‚
     Banknote currencies[] = {
         {RUB, 1.0, ONE},  
         {USD, 75.0, ONE}, 
         {EUR, 85.0, ONE}  
     };
 
-    // Массив номиналов
+    // РњР°СЃСЃРёРІ РЅРѕРјРёРЅР°Р»РѕРІ
     Denomination denominations[] = {ONE, FIVE, TEN, TWENTY, FIFTY, HUNDRED, THOUSAND};
 
-    // Генерация банкнот
+    // Р“РµРЅРµСЂР°С†РёСЏ Р±Р°РЅРєРЅРѕС‚
     for (int i = 0; i < N; i++) {
         wallet[i].denomination = denominations[rand() % (sizeof(denominations) / sizeof(denominations[0]))];
         int k = rand() % (sizeof(currencies) / sizeof(currencies[0]));
@@ -188,13 +188,13 @@ int main() {
     cout << "\nNominal filter: ";
     cin >> filterValue;
 
-    // Фильтрация и вывод результата
+    // Р¤РёР»СЊС‚СЂР°С†РёСЏ Рё РІС‹РІРѕРґ СЂРµР·СѓР»СЊС‚Р°С‚Р°
     filterBanknotesByDenomination(wallet, Denomination(filterValue));
 
-    // Вывод состава кошелька
+    // Р’С‹РІРѕРґ СЃРѕСЃС‚Р°РІР° РєРѕС€РµР»СЊРєР°
     printWalletComposition(wallet);
 
-    // Конвертация в рубли с использованием максимального номинала
+    // РљРѕРЅРІРµСЂС‚Р°С†РёСЏ РІ СЂСѓР±Р»Рё СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј РјР°РєСЃРёРјР°Р»СЊРЅРѕРіРѕ РЅРѕРјРёРЅР°Р»Р°
     convertToRoublesUsingMaxDenomination(wallet);
 
     return 0;
