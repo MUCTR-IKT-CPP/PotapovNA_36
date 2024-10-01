@@ -1,0 +1,307 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <cstdlib>
+#include <ctime>
+#include <algorithm>
+
+using namespace std;
+
+class Cat {
+public:
+    string name;
+    int age;
+    int satiety;
+    int tiredness;
+
+    Cat(const string& name, int age) : name(name), age(age), satiety(100), tiredness(0) {}
+
+    /*
+     * Изменение характеристик кота
+     *
+     * @param float intensity интенсивность посещения зоопарка
+     */
+    void update(float intensity) {
+        //Сытость и усталость
+        satiety -= intensity * 40.7; 
+        tiredness += intensity * 20.1;
+
+        satiety = max(0, satiety);
+        tiredness = min(100, tiredness);
+    }
+
+    /*
+     * Восстановление характеристик
+     */
+    void recover() {
+        tiredness -= 70;
+        tiredness = max(0, tiredness);
+    }
+};
+
+class Dog {
+public:
+    string name;
+    int age;
+    int satiety;
+    int tiredness;
+
+    Dog(const string& name, int age) : name(name), age(age), satiety(100), tiredness(0) {}
+
+    /*
+     * Изменение характеристик собаки
+     *
+     * @param float intensity интенсивность посещения зоопарка
+     */
+    void update(float intensity) {
+        satiety -= intensity * 36.5;
+        tiredness += intensity * 24.2;
+
+        satiety = max(0, satiety);
+        tiredness = min(100, tiredness);
+    }
+
+    /*
+     * Восстановление характеристик
+     */
+    void recover() {
+        tiredness -= 80;
+        tiredness = max(0, tiredness);
+    }
+};
+
+class Wombat {
+public:
+    string name;
+    int age;
+    int satiety;
+    int tiredness;
+
+    Wombat(const string& name, int age) : name(name), age(age), satiety(100), tiredness(0) {}
+
+    /*
+     * Изменение характеристик вомбата
+     *
+     * @param float intensity интенсивность посещения зоопарка
+     */
+    void update(float intensity) {
+        satiety -= intensity * 32.3;
+        tiredness += intensity * 16.8;
+
+        satiety = max(0, satiety);
+        tiredness = min(100, tiredness);
+    }
+
+    /*
+     * Восстановление характеристик
+     */
+    void recover() {
+        tiredness -= 90;
+        tiredness = max(0, tiredness);
+    }
+};
+
+class Animal {
+public:
+    void* animal;
+    string type;
+
+    Animal(void* animal, const string& type) : animal(animal), type(type) {}
+};
+
+class Zoo {
+private:
+    vector<Animal> animals;
+
+public:
+    /*
+     * Очищение памяти
+     */
+    void clearAnimals() {
+        //for (auto& animal : animals) {
+        //    delete static_cast<Cat*>(animal.animal);
+        //    delete static_cast<Dog*>(animal.animal); 
+        //    delete static_cast<Wombat*>(animal.animal); 
+        //}
+        animals.clear();
+    }
+
+    /*
+     * Добавление новго животного в вектор
+     *
+     * @param Animal animal новоое животное
+     */
+    void addAnimal(Animal animal) {
+        animals.push_back(animal);
+    }
+
+    /*
+     * Добавление новго животного пользователем
+     */
+    void addAnimalByUser() {
+        string name;
+        int age;
+        string type;
+
+        cout << "Name: ";
+        cin >> name;
+        cout << "Age: ";
+        cin >> age;
+
+        cout << "Species (Cat, Dog, Wombat): ";
+        cin >> type;
+
+        if (type == "Cat") {
+            addAnimal(Animal(new Cat(name, age), "Cat"));
+        }
+        else if (type == "Dog") {
+            addAnimal(Animal(new Dog(name, age), "Dog"));
+        }
+        else if (type == "Wombat") {
+            addAnimal(Animal(new Wombat(name, age), "Wombat"));
+        }
+        else {
+            cout << "Ошибка: Неверный тип животного." << endl;
+        }
+    }
+
+    /*
+     * Вывод имеющихся животных на экран
+     */
+    void printAnimals() {
+        cout << " " << endl;
+        for (const auto& animal : animals) {
+            if (animal.type == "Cat") {
+                Cat* cat = static_cast<Cat*>(animal.animal);
+                cout << "Cat: " << cat->name << ", Age: " << cat->age << ", Satiety: "
+                    << cat->satiety << ", Tiredness: " << cat->tiredness << endl;
+            }
+            else if (animal.type == "Dog") {
+                Dog* dog = static_cast<Dog*>(animal.animal);
+                cout << "Dog: " << dog->name << ", Age: " << dog->age << ", Satiety: "
+                    << dog->satiety << ", Tiredness: " << dog->tiredness << endl;
+            }
+            else if (animal.type == "Wombat") {
+                Wombat* wombat = static_cast<Wombat*>(animal.animal);
+                cout << "Wombat: " << wombat->name << ", Age: " << wombat->age << ", Satiety: "
+                    << wombat->satiety << ", Tiredness: " << wombat->tiredness << endl;
+            }
+        }
+    }
+
+    /*
+     * Симуляция дня в зоопарке
+     */
+    void simulateDay() {
+        for (int hour = 0; hour < 12; hour++) {
+            // Случайная интенсивность от 0.0 до 1.0
+            float intensity = static_cast<float>(rand()) / RAND_MAX;
+
+            cout << "\n--------------------------------- \nHour "
+                << hour + 1 << " - Visitor Intensity: " << intensity << "\n" << endl;
+
+            for (const auto& animal : animals) {
+                if (animal.type == "Cat") {
+                    Cat* cat = static_cast<Cat*>(animal.animal);
+                    cat->update(intensity);
+
+                    // Условия для сна или еды
+                    if (cat->tiredness > 80) {
+                        cout << cat->name << " is too tired and goes to sleep." << endl;
+                        cat->recover(); 
+                    }
+                    else if (cat->satiety < 30) {
+                        cout << cat->name << " is hungry and goes to eat." << endl;
+                        cat->satiety = 100; 
+                    }
+                }
+                else if (animal.type == "Dog") {
+                    Dog* dog = static_cast<Dog*>(animal.animal);
+                    dog->update(intensity);
+
+                    if (dog->tiredness > 80) {
+                        cout << dog->name << " is too tired and goes to sleep." << endl;
+                        dog->recover();
+                    }
+                    else if (dog->satiety < 30) {
+                        cout << dog->name << " is hungry and goes to eat." << endl;
+                        dog->satiety = 100;
+                    }
+                }
+                else if (animal.type == "Wombat") {
+                    Wombat* wombat = static_cast<Wombat*>(animal.animal);
+                    wombat->update(intensity);
+
+                    if (wombat->tiredness > 80) {
+                        cout << wombat->name << " is too tired and goes to sleep." << endl;
+                        wombat->recover();
+                    }
+                    else if (wombat->satiety < 30) {
+                        cout << wombat->name << " is hungry and goes to eat." << endl;
+                        wombat->satiety = 100;
+                    }
+                }
+
+            }
+            printAnimals();
+        }
+    }
+
+    /*
+     * Создание начального зоопарка
+     */
+    void basicZoo() {
+        srand(time(0));
+        int numAnimals;
+
+        cout << "The num of animals (at least 3): ";
+        cin >> numAnimals;
+
+        if (numAnimals < 3) {
+            cout << "There are must be minimum 3 animals!" << endl;
+        }
+
+        addAnimal(Animal(new Cat("Cat_1", rand() % 15 + 1), "Cat"));
+        addAnimal(Animal(new Dog("Dog_1", rand() % 15 + 1), "Dog"));
+        addAnimal(Animal(new Wombat("Wombat_1", rand() % 15 + 1), "Wombat"));
+
+        for (int i = 0; i < numAnimals - 3; i++) {
+            int randAnimal = rand() % 3;
+            string name = "Def";
+            int age = rand() % 15 + 1;
+
+            if (randAnimal == 0) {
+                name = "Cat - " + to_string(i + 1);
+                addAnimal(Animal(new Cat(name, age), "Cat"));
+            }
+            else if (randAnimal == 1) {
+                name = "Dog - " + to_string(i + 1);
+                addAnimal(Animal(new Dog(name, age), "Dog"));
+            }
+            else {
+                name = "Wombat - " + to_string(i + 1);
+                addAnimal(Animal(new Wombat(name, age), "Wombat"));
+            }
+        }
+    }
+
+};
+
+int main() {
+    srand(time(0));
+    Zoo zoo;
+
+    //Начальный зоопарк
+    zoo.basicZoo();
+
+    //Добавить еще одно животное
+    zoo.addAnimalByUser();
+
+    //День в зоопарке
+    zoo.simulateDay();
+
+    //Освобождение памяти
+    zoo.clearAnimals();
+
+    return 0;
+}
