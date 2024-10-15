@@ -6,22 +6,22 @@
 
 using namespace std;
 
-// Базовый класс "Животное"
+// Р‘Р°Р·РѕРІС‹Р№ РєР»Р°СЃСЃ "Р–РёРІРѕС‚РЅРѕРµ"
 class Animal {
 public:
     string name;
     int age; 
     int hunger;
     int fatigue;
-    bool busy; // Флаг занятости животного
+    bool busy; // Р¤Р»Р°Рі Р·Р°РЅСЏС‚РѕСЃС‚Рё Р¶РёРІРѕС‚РЅРѕРіРѕ
 
     Animal(string n, int a) :
         name(n), age(a), hunger(100), fatigue(0), busy(false) {}
 
    /*
-    * Игра животного
+    * РРіСЂР° Р¶РёРІРѕС‚РЅРѕРіРѕ
     *
-    * @param double intensity интенсивность посещения зоопарка
+    * @param double intensity РёРЅС‚РµРЅСЃРёРІРЅРѕСЃС‚СЊ РїРѕСЃРµС‰РµРЅРёСЏ Р·РѕРѕРїР°СЂРєР°
     */
     virtual void play(double intensity) {
         if (busy) return; 
@@ -30,7 +30,7 @@ public:
     }
 
     /*
-     * Животное спит
+     * Р–РёРІРѕС‚РЅРѕРµ СЃРїРёС‚
      */
     virtual void sleep() {
         if (busy) return; 
@@ -38,7 +38,7 @@ public:
     }
 
     /*
-     * Животное ест
+     * Р–РёРІРѕС‚РЅРѕРµ РµСЃС‚
      */
     virtual void eat() {
         if (busy) return; 
@@ -46,7 +46,7 @@ public:
     }
 
     /*
-     * Животное кормят
+     * Р–РёРІРѕС‚РЅРѕРµ РєРѕСЂРјСЏС‚
      */
     void feed() {
         hunger = min(100, hunger + 6); 
@@ -54,14 +54,14 @@ public:
     }
 
     /*
-     * Проверка на нужду во сне
+     * РџСЂРѕРІРµСЂРєР° РЅР° РЅСѓР¶РґСѓ РІРѕ СЃРЅРµ
      */
     bool needsSleep() const {
         return fatigue >= 80; 
     }
 
     /*
-     * Проверка на нужду в еде
+     * РџСЂРѕРІРµСЂРєР° РЅР° РЅСѓР¶РґСѓ РІ РµРґРµ
      */
     bool needsFood() const {
         return hunger <= 15; 
@@ -77,7 +77,7 @@ public:
     virtual ~Animal() {}
 };
 
-// Подкласс "Кот"
+// РџРѕРґРєР»Р°СЃСЃ "РљРѕС‚"
 class Cat : public Animal {
 public:
     Cat(string n, int a) : Animal(n, a) {}
@@ -106,7 +106,7 @@ public:
     //}
 };
 
-// Подкласс "Собака"
+// РџРѕРґРєР»Р°СЃСЃ "РЎРѕР±Р°РєР°"
 class Dog : public Animal {
 public:
     Dog(string n, int a) : Animal(n, a) {}
@@ -135,7 +135,7 @@ public:
     }*/
 };
 
-// Подкласс "Вомбат"
+// РџРѕРґРєР»Р°СЃСЃ "Р’РѕРјР±Р°С‚"
 class Wombat : public Animal {
 public:
     Wombat(string n, int a) : Animal(n, a) {}
@@ -164,7 +164,7 @@ public:
     //}
 };
 
-// Подкласс "Крыса"
+// РџРѕРґРєР»Р°СЃСЃ "РљСЂС‹СЃР°"
 class Rat : public Animal {
 public:
     Rat(string n, int a) : Animal(n, a) {}
@@ -193,14 +193,14 @@ public:
     //}
 };
 
-// Класс "Посетитель"
+// РљР»Р°СЃСЃ "РџРѕСЃРµС‚РёС‚РµР»СЊ"
 class Visitor {
 public:
     /*
-    * Играть с животным
+    * РРіСЂР°С‚СЊ СЃ Р¶РёРІРѕС‚РЅС‹Рј
     *
-    * @param Animal animal новоое животное
-    * @param double intensity интенсивность посещения зоопарка
+    * @param Animal animal РЅРѕРІРѕРѕРµ Р¶РёРІРѕС‚РЅРѕРµ
+    * @param double intensity РёРЅС‚РµРЅСЃРёРІРЅРѕСЃС‚СЊ РїРѕСЃРµС‰РµРЅРёСЏ Р·РѕРѕРїР°СЂРєР°
     */
     void playWithAnimal(Animal& animal, double intensity) {
         animal.busy = true; 
@@ -215,31 +215,31 @@ public:
     }
 };
 
-// Класс "Вольер"
+// РљР»Р°СЃСЃ "Р’РѕР»СЊРµСЂ"
 class Enclosure {
 public:
     vector<Animal*> animals;
 
     /*
-     * Добавление животного в вектор
+     * Р”РѕР±Р°РІР»РµРЅРёРµ Р¶РёРІРѕС‚РЅРѕРіРѕ РІ РІРµРєС‚РѕСЂ
      * 
-     * @param Animal animal новоое животное
+     * @param Animal animal РЅРѕРІРѕРѕРµ Р¶РёРІРѕС‚РЅРѕРµ
      */
     void addAnimal(Animal* animal) {
         animals.push_back(animal);
     }
 
     /*
-     * Взаимодействие животных между собой
+     * Р’Р·Р°РёРјРѕРґРµР№СЃС‚РІРёРµ Р¶РёРІРѕС‚РЅС‹С… РјРµР¶РґСѓ СЃРѕР±РѕР№
      */
     void interact() {
         if (animals.size() > 1) {
             for (int i = 0; i < animals.size(); i++) {
                 for (int j = i + 1; j < animals.size(); j++) {
-                    if (rand() % 2 == 1) { // 50% шанс на взаимодействие
+                    if (rand() % 2) { // 50% С€Р°РЅСЃ РЅР° РІР·Р°РёРјРѕРґРµР№СЃС‚РІРёРµ
                         animals[i]->busy = true;
                         animals[j]->busy = true;
-                        // Увеличиваем усталость для обоих животных
+                        // РЈРІРµР»РёС‡РёРІР°РµРј СѓСЃС‚Р°Р»РѕСЃС‚СЊ РґР»СЏ РѕР±РѕРёС… Р¶РёРІРѕС‚РЅС‹С…
                         animals[i]->fatigue += 2; 
                         animals[j]->fatigue += 3;
                         /* cout << animals[i]->name << " interacts with another animal!" << endl;*/
@@ -250,7 +250,7 @@ public:
     }
 
     /*
-     * Проверка животных
+     * РџСЂРѕРІРµСЂРєР° Р¶РёРІРѕС‚РЅС‹С…
      */
     void inspect() {
         for (Animal* animal : animals) {
@@ -262,26 +262,26 @@ public:
                 animal->eat();    
                 cout << animal->name << " is eating..." << endl;
             }
-            //cout << *animal << endl; // Вывод информации о животном
+            //cout << *animal << endl; // Р’С‹РІРѕРґ РёРЅС„РѕСЂРјР°С†РёРё Рѕ Р¶РёРІРѕС‚РЅРѕРј
         }
     }
 };
 
-// Класс "Контактный зоопарк"
+// РљР»Р°СЃСЃ "РљРѕРЅС‚Р°РєС‚РЅС‹Р№ Р·РѕРѕРїР°СЂРє"
 class ContactZoo {
 public:
     vector<Enclosure> enclosures; 
-    double intensity; // Интенсивность посещения
+    double intensity; // РРЅС‚РµРЅСЃРёРІРЅРѕСЃС‚СЊ РїРѕСЃРµС‰РµРЅРёСЏ
 
     /*
-     * Добавления вольера
+     * Р”РѕР±Р°РІР»РµРЅРёСЏ РІРѕР»СЊРµСЂР°
      */
     void addEnclosure(const Enclosure& enclosure) {
         enclosures.push_back(enclosure);
     }
 
     /*
-     * Вывод статуса животных
+     * Р’С‹РІРѕРґ СЃС‚Р°С‚СѓСЃР° Р¶РёРІРѕС‚РЅС‹С…
      */
     void displayAnimalsStatus() {
         cout << "Current status of animals: \n*********************************************************************" << endl;
@@ -295,31 +295,31 @@ public:
 
 
     /*
-     * Симулияция работы зоопарка
+     * РЎРёРјСѓР»РёСЏС†РёСЏ СЂР°Р±РѕС‚С‹ Р·РѕРѕРїР°СЂРєР°
      */
     void simulateMonth() {
         Visitor visitor; 
-        for (int day = 1; day <= 5; ++day) {
+        for (int day = 1; day <= 30; ++day) {
             cout << "Day " << day << ":\n";
-            for (int hour = 0; hour < 8; hour++) {
+            for (int hour = 0; hour < 16; hour++) {
                 cout << "\t\t\t|Hour " << hour + 1 << "|\n\n";
 
-                // Вывод текущих характеристик всех животных
+                // Р’С‹РІРѕРґ С‚РµРєСѓС‰РёС… С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРє РІСЃРµС… Р¶РёРІРѕС‚РЅС‹С…
                 displayAnimalsStatus();
 
                 intensity = static_cast<float>(rand()) / RAND_MAX;
 
                 for (auto& enclosure : enclosures) {
-                    // Осмотр животных
+                    // РћСЃРјРѕС‚СЂ Р¶РёРІРѕС‚РЅС‹С…
                     enclosure.inspect();
                     
-                    // Животные играют с учетом интенсивности
+                    // Р–РёРІРѕС‚РЅС‹Рµ РёРіСЂР°СЋС‚ СЃ СѓС‡РµС‚РѕРј РёРЅС‚РµРЅСЃРёРІРЅРѕСЃС‚Рё
                     for (Animal* animal : enclosure.animals) {
-                        // Взаимодействие животных
+                        // Р’Р·Р°РёРјРѕРґРµР№СЃС‚РІРёРµ Р¶РёРІРѕС‚РЅС‹С…
                         enclosure.interact();
                         animal->play(intensity);
                     }
-                    // Игра с животными и кормление
+                    // РРіСЂР° СЃ Р¶РёРІРѕС‚РЅС‹РјРё Рё РєРѕСЂРјР»РµРЅРёРµ
                     for (Animal* animal : enclosure.animals) {
                         visitor.playWithAnimal(*animal, intensity); 
                         if (rand() % 2 == 1) { 
@@ -333,10 +333,10 @@ public:
     }
 
     /*
-     * Создание начального зоопарка
+     * РЎРѕР·РґР°РЅРёРµ РЅР°С‡Р°Р»СЊРЅРѕРіРѕ Р·РѕРѕРїР°СЂРєР°
      */
     void basicZoo() {
-        // Создание вольеров и добавление животных
+        // РЎРѕР·РґР°РЅРёРµ РІРѕР»СЊРµСЂРѕРІ Рё РґРѕР±Р°РІР»РµРЅРёРµ Р¶РёРІРѕС‚РЅС‹С…
         Enclosure catEnclosure;
         catEnclosure.addAnimal(new Cat("Cat_1", 3));
         catEnclosure.addAnimal(new Cat("Cat_2", 2));
@@ -361,7 +361,7 @@ public:
     }
 
     /*
-     * Очищение памяти
+     * РћС‡РёС‰РµРЅРёРµ РїР°РјСЏС‚Рё
      */
     ~ContactZoo() {
         for (auto& enclosure : enclosures) {
@@ -377,10 +377,10 @@ int main() {
 
     srand(time(0));
 
-    //Начальный зоопарк
+    //РќР°С‡Р°Р»СЊРЅС‹Р№ Р·РѕРѕРїР°СЂРє
     zoo.basicZoo();
 
-    // Проведение симуляции в течение одного месяца
+    // РџСЂРѕРІРµРґРµРЅРёРµ СЃРёРјСѓР»СЏС†РёРё РІ С‚РµС‡РµРЅРёРµ РѕРґРЅРѕРіРѕ РјРµСЃСЏС†Р°
     zoo.simulateMonth();
 
     return 0;
