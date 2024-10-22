@@ -14,22 +14,22 @@ public:
     virtual ~Target() = default;
 };
 
-//Статическая мишень
+//РЎС‚Р°С‚РёС‡РµСЃРєР°СЏ РјРёС€РµРЅСЊ
 class StaticTarget : public Target {
 private:
     string name;
-    int maxHits;    // Максимальное количество попаданий
-    int currentHits; // Текущее количество попаданий
-    double visibility; // Видимость
+    int maxHits;    // РњР°РєСЃРёРјР°Р»СЊРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РїРѕРїР°РґР°РЅРёР№
+    int currentHits; // РўРµРєСѓС‰РµРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РїРѕРїР°РґР°РЅРёР№
+    double visibility; // Р’РёРґРёРјРѕСЃС‚СЊ
 
 public:
     StaticTarget(const string& name, int maxHits, double visibility)
         : name(name), maxHits(maxHits), currentHits(0), visibility(visibility) {}
 
     /*
-     * Получение урона
+     * РџРѕР»СѓС‡РµРЅРёРµ СѓСЂРѕРЅР°
      *
-     * @param int damage Количество урона
+     * @param int damage РљРѕР»РёС‡РµСЃС‚РІРѕ СѓСЂРѕРЅР°
      */
     void receiveDamage(int damage) override {
         currentHits++;
@@ -37,41 +37,41 @@ public:
     }
 
     /*
-     * Шанс попадания
+     * РЁР°РЅСЃ РїРѕРїР°РґР°РЅРёСЏ
      *
-     * @return видмость мишени
+     * @return РІРёРґРјРѕСЃС‚СЊ РјРёС€РµРЅРё
      */
     double getHitChance() const override {
         return visibility;  
     }
 
     /*
-     * Проверка на состояние мишени
+     * РџСЂРѕРІРµСЂРєР° РЅР° СЃРѕСЃС‚РѕСЏРЅРёРµ РјРёС€РµРЅРё
      *
-     * @return условие целости мишени
+     * @return СѓСЃР»РѕРІРёРµ С†РµР»РѕСЃС‚Рё РјРёС€РµРЅРё
      */
     bool isAlive() const override {
         return currentHits < maxHits; 
     }
 };
 
-// Двигающаяся Мишень
+// Р”РІРёРіР°СЋС‰Р°СЏСЃСЏ РњРёС€РµРЅСЊ
 class MovingTarget : public Target {
 private:
     string name;
-    int maxHits;    // Максимальное количество попаданий
-    int currentHits; // Текущее количество попаданий
-    double visibility; // Уникальная характеристика для движения
-    double speed;      // Уникальная характеристика для мобильности
+    int maxHits;    // РњР°РєСЃРёРјР°Р»СЊРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РїРѕРїР°РґР°РЅРёР№
+    int currentHits; // РўРµРєСѓС‰РµРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РїРѕРїР°РґР°РЅРёР№
+    double visibility; // РЈРЅРёРєР°Р»СЊРЅР°СЏ С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєР° РґР»СЏ РґРІРёР¶РµРЅРёСЏ
+    double speed;      // РЈРЅРёРєР°Р»СЊРЅР°СЏ С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєР° РґР»СЏ РјРѕР±РёР»СЊРЅРѕСЃС‚Рё
 
 public:
     MovingTarget(const string& name, int maxHits, double visibility, double speed)
         : name(name), maxHits(maxHits), currentHits(0), visibility(visibility), speed(speed) {}
 
     /*
-     * Получение урона
+     * РџРѕР»СѓС‡РµРЅРёРµ СѓСЂРѕРЅР°
      *
-     * @param int damage Количество урона
+     * @param int damage РљРѕР»РёС‡РµСЃС‚РІРѕ СѓСЂРѕРЅР°
      */
     void receiveDamage(int damage) override {
         currentHits++;
@@ -79,41 +79,41 @@ public:
     }
 
     /*
-     * Шанс попадания
+     * РЁР°РЅСЃ РїРѕРїР°РґР°РЅРёСЏ
      *
-     * @return видмость мишени с учетом скорости движения
+     * @return РІРёРґРјРѕСЃС‚СЊ РјРёС€РµРЅРё СЃ СѓС‡РµС‚РѕРј СЃРєРѕСЂРѕСЃС‚Рё РґРІРёР¶РµРЅРёСЏ
      */
     double getHitChance() const override {
-        return visibility / (1 + speed); // Шанс попадания уменьшается с увеличением скорости
+        return visibility / (1 + speed); // РЁР°РЅСЃ РїРѕРїР°РґР°РЅРёСЏ СѓРјРµРЅСЊС€Р°РµС‚СЃСЏ СЃ СѓРІРµР»РёС‡РµРЅРёРµРј СЃРєРѕСЂРѕСЃС‚Рё
     }
 
     /*
-     * Проверка на состояние мишени
+     * РџСЂРѕРІРµСЂРєР° РЅР° СЃРѕСЃС‚РѕСЏРЅРёРµ РјРёС€РµРЅРё
      *
-     * @return условие целости мишени
+     * @return СѓСЃР»РѕРІРёРµ С†РµР»РѕСЃС‚Рё РјРёС€РµРЅРё
      */
     bool isAlive() const override {
         return currentHits < maxHits;
     }
 };
 
-// Маленькая Мишень
+// РњР°Р»РµРЅСЊРєР°СЏ РњРёС€РµРЅСЊ
 class SmallTarget : public Target {
 private:
     string name;
     int maxHits;
     int currentHits;
-    double visibility; // Уникальная характеристика для маленьких мишеней
-    double size;      // Уникальная характеристика маленькой мишени
+    double visibility; // РЈРЅРёРєР°Р»СЊРЅР°СЏ С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєР° РґР»СЏ РјР°Р»РµРЅСЊРєРёС… РјРёС€РµРЅРµР№
+    double size;      // РЈРЅРёРєР°Р»СЊРЅР°СЏ С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєР° РјР°Р»РµРЅСЊРєРѕР№ РјРёС€РµРЅРё
 
 public:
     SmallTarget(const string& name, int maxHits, double visibility, double size)
         : name(name), maxHits(maxHits), currentHits(0), visibility(visibility), size(size) {}
 
     /*
-     * Получение урона
+     * РџРѕР»СѓС‡РµРЅРёРµ СѓСЂРѕРЅР°
      *
-     * @param int damage Количество урона
+     * @param int damage РљРѕР»РёС‡РµСЃС‚РІРѕ СѓСЂРѕРЅР°
      */
     void receiveDamage(int damage) override {
         currentHits++;
@@ -121,18 +121,18 @@ public:
     }
 
     /*
-     * Шанс попадания
+     * РЁР°РЅСЃ РїРѕРїР°РґР°РЅРёСЏ
      *
-     * @return видмость мишени с учетом размера мишени
+     * @return РІРёРґРјРѕСЃС‚СЊ РјРёС€РµРЅРё СЃ СѓС‡РµС‚РѕРј СЂР°Р·РјРµСЂР° РјРёС€РµРЅРё
      */
     double getHitChance() const override {
         return visibility - size; 
     }
 
     /*
-     * Проверка на состояние мишени
+     * РџСЂРѕРІРµСЂРєР° РЅР° СЃРѕСЃС‚РѕСЏРЅРёРµ РјРёС€РµРЅРё
      *
-     * @return условие целости мишени
+     * @return СѓСЃР»РѕРІРёРµ С†РµР»РѕСЃС‚Рё РјРёС€РµРЅРё
      */
     bool isAlive() const override {
         return currentHits < maxHits;
@@ -148,9 +148,9 @@ public:
     Weapon(int maxAmmo) : maxAmmo(maxAmmo), currentAmmo(0) {}
 
     /*
-     * Перезарядка оружия
+     * РџРµСЂРµР·Р°СЂСЏРґРєР° РѕСЂСѓР¶РёСЏ
      *
-     * @param int ammo Количество патронов
+     * @param int ammo РљРѕР»РёС‡РµСЃС‚РІРѕ РїР°С‚СЂРѕРЅРѕРІ
      */
     void reload(int ammo) {
         currentAmmo = min(maxAmmo, currentAmmo + ammo);
@@ -158,10 +158,10 @@ public:
     }
 
     /*
-     * Одиночная стрельба
+     * РћРґРёРЅРѕС‡РЅР°СЏ СЃС‚СЂРµР»СЊР±Р°
      *
-     * @param Target& target мишень
-     * @param int damage Количество урона
+     * @param Target& target РјРёС€РµРЅСЊ
+     * @param int damage РљРѕР»РёС‡РµСЃС‚РІРѕ СѓСЂРѕРЅР°
      */
     void fireSingle(Target& target, int damage) {
         if (currentAmmo > 0 && target.isAlive()) {
@@ -184,10 +184,10 @@ public:
     }
 
     /*
-     * Стрельба очередями
+     * РЎС‚СЂРµР»СЊР±Р° РѕС‡РµСЂРµРґСЏРјРё
      *
-     * @param Target& target мишень
-     * @param int damage урон пули
+     * @param Target& target РјРёС€РµРЅСЊ
+     * @param int damage СѓСЂРѕРЅ РїСѓР»Рё
      */
     void fireBurst(Target& target, int damagePerBullet) {
         if (currentAmmo >= 3 && target.isAlive()) {
@@ -213,10 +213,10 @@ public:
     }
 
     /*
-     * Проверка поподания
+     * РџСЂРѕРІРµСЂРєР° РїРѕРїРѕРґР°РЅРёСЏ
      *
      * @param double chance
-     * @return результат сравнения
+     * @return СЂРµР·СѓР»СЊС‚Р°С‚ СЃСЂР°РІРЅРµРЅРёСЏ
      */
     bool hit(double chance) {
         double randomHit = static_cast<double>(rand()) / RAND_MAX;
@@ -235,9 +235,9 @@ public:
         : weapon(weapon), target(target) {}
 
     /*
-     * Стрельба в мишень
+     * РЎС‚СЂРµР»СЊР±Р° РІ РјРёС€РµРЅСЊ
      *
-     * @param int damage Количество урона
+     * @param int damage РљРѕР»РёС‡РµСЃС‚РІРѕ СѓСЂРѕРЅР°
      */
     void shootAtTarget(int damage) {
         if (target->isAlive()) {
@@ -246,9 +246,9 @@ public:
     }
 
     /*
-     * Выбор мишени
+     * Р’С‹Р±РѕСЂ РјРёС€РµРЅРё
      *
-     * @return мишень
+     * @return РјРёС€РµРЅСЊ
      */
     Target* getTarget() const {
         return target;
@@ -265,14 +265,14 @@ public:
         : weapon(weapon), targets(targets) {}
 
     /*
-     * Симуляция стрельбы
+     * РЎРёРјСѓР»СЏС†РёСЏ СЃС‚СЂРµР»СЊР±С‹
      *
      */
     void simulate() {
         int destroyedTargets = 0;
         int totalDamage = 0;
 
-        // Генерация случайного значения скорости одиночного выстрела и режима очередями
+        // Р“РµРЅРµСЂР°С†РёСЏ СЃР»СѓС‡Р°Р№РЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ СЃРєРѕСЂРѕСЃС‚Рё РѕРґРёРЅРѕС‡РЅРѕРіРѕ РІС‹СЃС‚СЂРµР»Р° Рё СЂРµР¶РёРјР° РѕС‡РµСЂРµРґСЏРјРё
         int singleShotSpeed = 1 + rand() % 4; 
         int burstShotSpeed = 1 + rand() % 2;
         cout << "Single shot speed: " << singleShotSpeed << ", Burst shot speed: " << burstShotSpeed << endl;
@@ -282,35 +282,35 @@ public:
 
             for (int i = 0; i < singleShotSpeed; i++) {
                 for (auto& target : targets) {
-                    ShootingRange range(weapon, target.get()); // получение указателя на мишень
-                    range.shootAtTarget(5); // Урон 5 на каждую мишень
+                    ShootingRange range(weapon, target.get()); // РїРѕР»СѓС‡РµРЅРёРµ СѓРєР°Р·Р°С‚РµР»СЏ РЅР° РјРёС€РµРЅСЊ
+                    range.shootAtTarget(5); // РЈСЂРѕРЅ 5 РЅР° РєР°Р¶РґСѓСЋ РјРёС€РµРЅСЊ
                 }
             }
 
-            // Изменение режима стрельбы с вероятностью 35%
+            // РР·РјРµРЅРµРЅРёРµ СЂРµР¶РёРјР° СЃС‚СЂРµР»СЊР±С‹ СЃ РІРµСЂРѕСЏС‚РЅРѕСЃС‚СЊСЋ 35%
             if (static_cast<double>(rand()) / RAND_MAX < 0.35) {
                 cout << "**Changing firing mode!**" << endl;
                 for (int i = 0; i < burstShotSpeed; i++) {
                     for (auto& target : targets) {
                         ShootingRange range(weapon, target.get());
-                        weapon.fireBurst(*target, 5); // Урон 5 на каждую мишень
+                        weapon.fireBurst(*target, 5); // РЈСЂРѕРЅ 5 РЅР° РєР°Р¶РґСѓСЋ РјРёС€РµРЅСЊ
                     }
                 }
             }
 
-            totalDamage += (5 * (singleShotSpeed + burstShotSpeed)); // Это количество условного урона за итерацию
+            totalDamage += (5 * (singleShotSpeed + burstShotSpeed)); // Р­С‚Рѕ РєРѕР»РёС‡РµСЃС‚РІРѕ СѓСЃР»РѕРІРЅРѕРіРѕ СѓСЂРѕРЅР° Р·Р° РёС‚РµСЂР°С†РёСЋ
 
             cout << endl;
         }
 
-        // Подсчет разрушенных мишеней и общего урона
+        // РџРѕРґСЃС‡РµС‚ СЂР°Р·СЂСѓС€РµРЅРЅС‹С… РјРёС€РµРЅРµР№ Рё РѕР±С‰РµРіРѕ СѓСЂРѕРЅР°
         for (const auto& target : targets) {
             if (!target->isAlive()) {
                 destroyedTargets++;
             }
         }
 
-        // Вывод результатов
+        // Р’С‹РІРѕРґ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ
         int remainingTargets = targets.size() - destroyedTargets;
         double averageDamage = totalDamage / static_cast<double>(targets.size());
 
@@ -320,9 +320,9 @@ public:
     }
 
     /*
-     * Добавление мишеней
+     * Р”РѕР±Р°РІР»РµРЅРёРµ РјРёС€РµРЅРµР№
      * 
-     * @param int count количество мишеней
+     * @param int count РєРѕР»РёС‡РµСЃС‚РІРѕ РјРёС€РµРЅРµР№
      */
     void createTargets(int count) {
         for (int i = 0; i < count; i++) {
@@ -331,16 +331,16 @@ public:
     }
 
     /*
-     * Создание мишеней
+     * РЎРѕР·РґР°РЅРёРµ РјРёС€РµРЅРµР№
      *
      */
     unique_ptr<Target> createRandomTarget() {
-        // Генерация случайных чисел
-        int type = rand() % 3; // Тип мишени
-        int maxHits = 3 + rand() % 3; // Кол-во попаданий для разрушения
-        double visibility = 0.5 + (static_cast<double>(rand()) / RAND_MAX) * 0.5; // Видимость
-        double size = 0.1 + (static_cast<double>(rand()) / RAND_MAX) * 0.4; // Размер
-        double speed = 0.1 + (static_cast<double>(rand()) / RAND_MAX) * 0.9; // Скорость
+        // Р“РµРЅРµСЂР°С†РёСЏ СЃР»СѓС‡Р°Р№РЅС‹С… С‡РёСЃРµР»
+        int type = rand() % 3; // РўРёРї РјРёС€РµРЅРё
+        int maxHits = 3 + rand() % 3; // РљРѕР»-РІРѕ РїРѕРїР°РґР°РЅРёР№ РґР»СЏ СЂР°Р·СЂСѓС€РµРЅРёСЏ
+        double visibility = 0.5 + (static_cast<double>(rand()) / RAND_MAX) * 0.5; // Р’РёРґРёРјРѕСЃС‚СЊ
+        double size = 0.1 + (static_cast<double>(rand()) / RAND_MAX) * 0.4; // Р Р°Р·РјРµСЂ
+        double speed = 0.1 + (static_cast<double>(rand()) / RAND_MAX) * 0.9; // РЎРєРѕСЂРѕСЃС‚СЊ
 
         if (type == 0) {
             return make_unique<StaticTarget>("Static Target", maxHits, visibility);
