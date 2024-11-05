@@ -25,12 +25,12 @@ private:
 public:
     Bullet(const string& name, BulletType type) : name(name), type(type) {}
 
-    //Наименование пули     
+    //РќР°РёРјРµРЅРѕРІР°РЅРёРµ РїСѓР»Рё     
     string getName() const {
         return name;
     }
 
-    //Тип пули     
+    //РўРёРї РїСѓР»Рё     
     BulletType getType() const {
         return type;
     }
@@ -60,8 +60,8 @@ private:
 
 public:
     /*
-    * Перезарядка пули
-    * @param bullets вектор заряжаемых пуль.
+    * РџРµСЂРµР·Р°СЂСЏРґРєР° РїСѓР»Рё
+    * @param bullets РІРµРєС‚РѕСЂ Р·Р°СЂСЏР¶Р°РµРјС‹С… РїСѓР»СЊ.
     */
     void reload(const vector<Bullet>& bullets) {
         for (const Bullet& bullet : bullets) {
@@ -72,8 +72,8 @@ public:
     }
 
     /*
-    * Изымание пули
-    * @return изымаемая пуля
+    * РР·С‹РјР°РЅРёРµ РїСѓР»Рё
+    * @return РёР·С‹РјР°РµРјР°СЏ РїСѓР»СЏ
     */
     Bullet extractBullet() {
         sleep_for(milliseconds(200));
@@ -83,7 +83,7 @@ public:
     }
 
     /*
-    * Проверка пустоты магазина
+    * РџСЂРѕРІРµСЂРєР° РїСѓСЃС‚РѕС‚С‹ РјР°РіР°Р·РёРЅР°
     */
     bool isEmpty() const {
         return magazin.empty();
@@ -103,19 +103,19 @@ public:
     Weapon() : magazin(nullptr) {}
 
     /*
-    * Выстрел
+    * Р’С‹СЃС‚СЂРµР»
     */
     void shoot() {
         sleep_for(milliseconds(500));
         Bullet bullet = magazin->extractBullet();
-        cout << "Shoot: " << bullet << " - " << bullet.getEffect() << endl; // Теперь выводит эффект
+        cout << "Shoot: " << bullet << " - " << bullet.getEffect() << endl; // РўРµРїРµСЂСЊ РІС‹РІРѕРґРёС‚ СЌС„С„РµРєС‚
 
     }
 
     /*
-    * Загрузка магазина в оружие
+    * Р—Р°РіСЂСѓР·РєР° РјР°РіР°Р·РёРЅР° РІ РѕСЂСѓР¶РёРµ
     * 
-    * @param newMag магазин
+    * @param newMag РјР°РіР°Р·РёРЅ
     */
     void loadMag(Magazin& newMag) {
         magazin = &newMag; 
@@ -123,7 +123,7 @@ public:
     }
     
     /*
-    * Выгрузка магазина из оружия
+    * Р’С‹РіСЂСѓР·РєР° РјР°РіР°Р·РёРЅР° РёР· РѕСЂСѓР¶РёСЏ
     */
     void unloadMag() {
         cout << "Magazine removed: " << *magazin << endl;
@@ -140,10 +140,10 @@ private:
 
 public:
     /*
-    * Генерация коробки патронов.
-    * @param count колиечство генерируемых патронов.
+    * Р“РµРЅРµСЂР°С†РёСЏ РєРѕСЂРѕР±РєРё РїР°С‚СЂРѕРЅРѕРІ.
+    * @param count РєРѕР»РёРµС‡СЃС‚РІРѕ РіРµРЅРµСЂРёСЂСѓРµРјС‹С… РїР°С‚СЂРѕРЅРѕРІ.
     *
-    * @return сгенерировання коробка патронов
+    * @return СЃРіРµРЅРµСЂРёСЂРѕРІР°РЅРЅСЏ РєРѕСЂРѕР±РєР° РїР°С‚СЂРѕРЅРѕРІ
     */
     vector<Bullet> generateAmmoBox(size_t count) {
         vector<Bullet> bullets;
@@ -157,7 +157,7 @@ public:
 
 
     void run() {
-        size_t bulletCount = 10 + rand() % 11; // Генерируем случайное количество патронов
+        size_t bulletCount = 10 + rand() % 11; // Р“РµРЅРµСЂРёСЂСѓРµРј СЃР»СѓС‡Р°Р№РЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РїР°С‚СЂРѕРЅРѕРІ
         vector<Bullet> ammoBox = generateAmmoBox(bulletCount);
         vector<Bullet> generatedBullets = ammoBox;
         Magazin magazin;
@@ -170,7 +170,7 @@ public:
 
                     vector<Bullet> newMag(ammoBox.end() - mag_size, ammoBox.end());
                     magazin.reload(newMag);
-                    weapon.loadMag(magazin); // Вставка нового магазина в оружие
+                    weapon.loadMag(magazin); // Р’СЃС‚Р°РІРєР° РЅРѕРІРѕРіРѕ РјР°РіР°Р·РёРЅР° РІ РѕСЂСѓР¶РёРµ
                     
                     magazinesReloaded++;
                     ammoBox.erase(ammoBox.end() - mag_size, ammoBox.end());
@@ -189,7 +189,7 @@ public:
                 totalShootingTime += milliseconds(500);
             }
 
-            weapon.unloadMag(); // Выгрузка магазина 
+            weapon.unloadMag(); // Р’С‹РіСЂСѓР·РєР° РјР°РіР°Р·РёРЅР° 
         }
 
         cout << "All ammo has been used!" << endl;
