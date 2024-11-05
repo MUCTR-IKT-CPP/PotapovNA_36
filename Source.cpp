@@ -1,0 +1,230 @@
+#include <iostream>
+#include <vector>
+#include <thread>
+#include <chrono>
+#include <sstream>
+#include <map>
+#include <cstdlib>
+#include <ctime>
+
+using namespace std;
+using namespace chrono;
+using namespace this_thread;
+
+enum class BulletType {
+    Subsonic,
+    Supersonic,
+    Tracer
+};
+
+class Bullet {
+private:
+    string name;
+    BulletType type;
+
+public:
+    Bullet(const string& name, BulletType type) : name(name), type(type) {}
+
+    //Наименование пули     
+    string getName() const {
+        return name;
+    }
+
+    //Тип пули     
+    BulletType getType() const {
+        return type;
+    }
+
+    string getEffect() const {
+        switch (type) {
+        case BulletType::Subsonic:
+            return "Quiet shot.";
+        case BulletType::Supersonic:
+            return "Standard shot.";
+        case BulletType::Tracer:
+            return "Standard shot with a visible trajectory.";
+        default:
+            return "Unknown effect.";
+        }
+    }
+
+    friend ostream& operator<<(ostream& os, const Bullet& bullet) {
+        os << "Bullet { Name: " << bullet.name << ", Type: " << static_cast<int>(bullet.type) << " }";
+        return os;
+    }
+};
+
+class Magazin {
+private:
+    vector<Bullet> magazin;
+
+public:
+    /*
+    * Перезарядка пули
+    * @param bullets вектор заряжаемых пуль.
+    */
+    void reload(const vector<Bullet>& bullets) {
+        for (const Bullet& bullet : bullets) {
+            sleep_for(milliseconds(300));
+            magazin.push_back(bullet);
+            cout << "Reloaded: " << bullet << endl;
+        }
+    }
+
+    /*
+    * Изымание пули
+    * @return изымаемая пуля
+    */
+    Bullet extractBullet() {
+        sleep_for(milliseconds(200));
+        Bullet bullet = magazin.back();
+        magazin.pop_back();
+        return bullet;
+    }
+
+    /*
+    * Проверка пустоты магазина
+    */
+    bool isEmpty() const {
+        return magazin.empty();
+    }
+
+    friend ostream& operator<<(ostream& os, const Magazin& magazin) {
+        os << "Magazin { Size: " << magazin.magazin.size() << " }";
+        return os;
+    }
+};
+
+class Weapon {
+private:
+    Magazin* magazin;
+
+public:
+    Weapon() : magazin(nullptr) {}
+
+    /*
+    * Выстрел
+    */
+    void shoot() {
+        sleep_for(milliseconds(500));
+        Bullet bullet = magazin->extractBullet();
+        cout << "Shoot: " << bullet << " - " << bullet.getEffect() << endl; // Теперь выводит эффект
+
+    }
+
+    /*
+    * Загрузка магазина в оружие
+    * 
+    * @param newMag магазин
+    */
+    void loadMag(Magazin& newMag) {
+        magazin = &newMag; 
+        cout << "Magazine inserted: " << *magazin << endl;
+    }
+    
+    /*
+    * Выгрузка магазина из оружия
+    */
+    void unloadMag() {
+        cout << "Magazine removed: " << *magazin << endl;
+        magazin = nullptr;
+    }
+};
+
+class Simulation {
+private:
+    size_t bulletsShot = 0;
+    size_t magazinesReloaded = 0;
+    milliseconds totalReloadTime = milliseconds(0);
+    milliseconds totalShootingTime = milliseconds(0);
+
+public:
+    /*
+    * Генерация коробки патронов.
+    * @param count колиечство генерируемых патронов.
+    *
+    * @return сгенерировання коробка патронов
+    */
+    vector<Bullet> generateAmmoBox(size_t count) {
+        vector<Bullet> bullets;
+        for (size_t i = 0; i < count; i++) {
+            BulletType type = static_cast<BulletType>(rand() % 3);
+            string name = "Bullet #" + to_string(i + 1);
+            bullets.emplace_back(name, type);
+        }
+        return bullets;
+    }
+
+
+    void run() {
+        size_t bulletCount = 10 + rand() % 11; // Генерируем случайное количество патронов
+        vector<Bullet> ammoBox = generateAmmoBox(bulletCount);
+        vector<Bullet> generatedBullets = ammoBox;
+        Magazin magazin;
+        Weapon weapon;
+        int mag_size = 5;
+
+        while (!ammoBox.empty()) {
+            if (magazin.isEmpty()) {
+                if (ammoBox.size() >= mag_size) {
+
+                    vector<Bullet> newMag(ammoBox.end() - mag_size, ammoBox.end());
+                    magazin.reload(newMag);
+                    weapon.loadMag(magazin); // Вставка нового магазина в оружие
+                    
+                    magazinesReloaded++;
+                    ammoBox.erase(ammoBox.end() - mag_size, ammoBox.end());
+                }
+                else {
+                    magazin.reload(ammoBox);
+                    weapon.loadMag(magazin); 
+                    ammoBox.clear(); 
+                    magazinesReloaded++;
+                }
+            }
+
+            for (size_t i = 0; !magazin.isEmpty(); i++) {
+                weapon.shoot();
+                bulletsShot++;
+                totalShootingTime += milliseconds(500);
+            }
+
+            weapon.unloadMag(); // Выгрузка магазина 
+        }
+
+        cout << "All ammo has been used!" << endl;
+        printStatistics(generatedBullets);
+    }
+
+    void printStatistics(const vector<Bullet>& generatedBullets) {
+        cout << "\n\nTotal bullets shot: " << bulletsShot << endl;
+        cout << "Total magazines reloaded: " << magazinesReloaded << endl;
+        cout << "Total reload time (ms): " << totalReloadTime.count() << endl;
+        cout << "Total shooting time (ms): " << totalShootingTime.count() << endl;
+
+        map<BulletType, size_t> bulletTypeCount;
+        for (const Bullet& bullet : generatedBullets) {
+            bulletTypeCount[bullet.getType()]++;
+        }
+
+        cout << "Bullet type counts:" << endl;
+        cout << " Subsonic: " << bulletTypeCount[BulletType::Subsonic] << endl;
+        cout << " Supersonic: " << bulletTypeCount[BulletType::Supersonic] << endl;
+        cout << " Tracer: " << bulletTypeCount[BulletType::Tracer] << endl;
+    }
+
+    friend ostream& operator<<(ostream& os, const Simulation& simulation) {
+        os << "Simulation { Bullets Shot: " << simulation.bulletsShot
+            << ", Magazines Reloaded: " << simulation.magazinesReloaded << " }";
+        return os;
+    }
+};
+
+int main() {
+    srand(static_cast<unsigned int>(time(0)));
+
+    Simulation simulation;
+    simulation.run();
+
+    return 0;
+}
