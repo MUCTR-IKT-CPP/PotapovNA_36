@@ -13,12 +13,12 @@ private:
     const int number;
     vector<int> divisors;
 
-    // Запрет копирования
-    NaturalDivisors(const NaturalDivisors&) = delete; // Конструктор копирования
-    NaturalDivisors& operator=(const NaturalDivisors&) = delete; // Оператор присваивания
+    // Р—Р°РїСЂРµС‚ РєРѕРїРёСЂРѕРІР°РЅРёСЏ
+    NaturalDivisors(const NaturalDivisors&) = delete; // РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ
+    NaturalDivisors& operator=(const NaturalDivisors&) = delete; // РћРїРµСЂР°С‚РѕСЂ РїСЂРёСЃРІР°РёРІР°РЅРёСЏ
 
     /*
-    * Вычисление делителей
+    * Р’С‹С‡РёСЃР»РµРЅРёРµ РґРµР»РёС‚РµР»РµР№
     */
     void calculateDivisors() {
         for (int i = 1; i <= number; ++i) {
@@ -35,18 +35,18 @@ public:
     }
 
     /*
-    * Метод для получения делителей
+    * РњРµС‚РѕРґ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РґРµР»РёС‚РµР»РµР№
     * 
-    * @return делители
+    * @return РґРµР»РёС‚РµР»Рё
     */
     const vector<int>& getDivisors() const {
         return divisors;
     }
 
     /*
-    * Метод для получения среднего арифметического делителей
+    * РњРµС‚РѕРґ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ СЃСЂРµРґРЅРµРіРѕ Р°СЂРёС„РјРµС‚РёС‡РµСЃРєРѕРіРѕ РґРµР»РёС‚РµР»РµР№
     * 
-    * @return Среднее значение делителей
+    * @return РЎСЂРµРґРЅРµРµ Р·РЅР°С‡РµРЅРёРµ РґРµР»РёС‚РµР»РµР№
     */
     double averageOfDivisors() const {
         if (divisors.empty()) return 0.0;
@@ -55,24 +55,24 @@ public:
     }
 
     /*
-    * Метод для получения самого числа
+    * РњРµС‚РѕРґ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ СЃР°РјРѕРіРѕ С‡РёСЃР»Р°
     * 
-    * @return число
+    * @return С‡РёСЃР»Рѕ
     */
     int getNumber() const {
         return number;
     }
 
     /*
-    * Метод для "копирования" объекта
+    * РњРµС‚РѕРґ РґР»СЏ "РєРѕРїРёСЂРѕРІР°РЅРёСЏ" РѕР±СЉРµРєС‚Р°
     * 
-    * @return скопированный объект
+    * @return СЃРєРѕРїРёСЂРѕРІР°РЅРЅС‹Р№ РѕР±СЉРµРєС‚
     */
     unique_ptr<NaturalDivisors> copy_new() const {
         return make_unique<NaturalDivisors>(number);
     }
 
-    // Дружественная функция для перегрузки оператора вывода
+    // Р”СЂСѓР¶РµСЃС‚РІРµРЅРЅР°СЏ С„СѓРЅРєС†РёСЏ РґР»СЏ РїРµСЂРµРіСЂСѓР·РєРё РѕРїРµСЂР°С‚РѕСЂР° РІС‹РІРѕРґР°
     friend ostream& operator<<(ostream& os, const NaturalDivisors& nd) {
         os << "Divisors of " << nd.number << ": ";
         copy(nd.divisors.begin(), nd.divisors.end(), ostream_iterator<int>(os, " "));
@@ -80,18 +80,18 @@ public:
     }
 
     /*
-    * Дружественная функция для поиска НОД с использованием std::bind
+    * Р”СЂСѓР¶РµСЃС‚РІРµРЅРЅР°СЏ С„СѓРЅРєС†РёСЏ РґР»СЏ РїРѕРёСЃРєР° РќРћР” СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј std::bind
     * 
-    * @param a первое число
-    * @param b второе число
+    * @param a РїРµСЂРІРѕРµ С‡РёСЃР»Рѕ
+    * @param b РІС‚РѕСЂРѕРµ С‡РёСЃР»Рѕ
     */
     friend int nod_with_bind(int a, int b);
 
     /*
-    * Дружественная функция для поиска НОД с использованием лямбда-выражений
+    * Р”СЂСѓР¶РµСЃС‚РІРµРЅРЅР°СЏ С„СѓРЅРєС†РёСЏ РґР»СЏ РїРѕРёСЃРєР° РќРћР” СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј Р»СЏРјР±РґР°-РІС‹СЂР°Р¶РµРЅРёР№
     * 
-    * @param a первое число
-    * @param b второе число
+    * @param a РїРµСЂРІРѕРµ С‡РёСЃР»Рѕ
+    * @param b РІС‚РѕСЂРѕРµ С‡РёСЃР»Рѕ
     */
     friend int nod_with_lambda(int a, int b);
 
@@ -99,12 +99,12 @@ public:
 
 
 /*
-* Функция для вычисления НОД
+* Р¤СѓРЅРєС†РёСЏ РґР»СЏ РІС‹С‡РёСЃР»РµРЅРёСЏ РќРћР”
 *
-* @param a первое число
-* @param b второе число
+* @param a РїРµСЂРІРѕРµ С‡РёСЃР»Рѕ
+* @param b РІС‚РѕСЂРѕРµ С‡РёСЃР»Рѕ
 * 
-* @return НОД
+* @return РќРћР”
 */
 int nod(int a, int b) {
     while (b != 0) {
@@ -115,57 +115,57 @@ int nod(int a, int b) {
     return a;
 }
 
-// Функция для вычисления НОД с использованием std::bind
+// Р¤СѓРЅРєС†РёСЏ РґР»СЏ РІС‹С‡РёСЃР»РµРЅРёСЏ РќРћР” СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј std::bind
 int nod_with_bind(int a, int b) {
-    // Создание функции, которая ищет НОД с a и элементами
+    // РЎРѕР·РґР°РЅРёРµ С„СѓРЅРєС†РёРё, РєРѕС‚РѕСЂР°СЏ РёС‰РµС‚ РќРћР” СЃ a Рё СЌР»РµРјРµРЅС‚Р°РјРё
     auto nod_function = bind(nod, a, placeholders::_1);
 
-    // Используем find_if для поиска вектора делителей b
-    int result = -1; // Начальное значение
+    // РСЃРїРѕР»СЊР·СѓРµРј find_if РґР»СЏ РїРѕРёСЃРєР° РІРµРєС‚РѕСЂР° РґРµР»РёС‚РµР»РµР№ b
+    int result = -1; // РќР°С‡Р°Р»СЊРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ
     vector<int> divisors = { b };
     auto it = find_if(divisors.begin(), divisors.end(), nod_function);
     int index = abs(divisors.begin() - it);
     return nod_function(divisors[index]);
 }
 
-// Функция для вычисления НОД с использованием лямбда-выражений
+// Р¤СѓРЅРєС†РёСЏ РґР»СЏ РІС‹С‡РёСЃР»РµРЅРёСЏ РќРћР” СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј Р»СЏРјР±РґР°-РІС‹СЂР°Р¶РµРЅРёР№
 int nod_with_lambda(int a, int b) {
     auto find_if_nod = [&a](int b) {
-        return nod(a, b); // передаем a в лямбда-выражение
+        return nod(a, b); // РїРµСЂРµРґР°РµРј a РІ Р»СЏРјР±РґР°-РІС‹СЂР°Р¶РµРЅРёРµ
         };
 
     int result = 0;
-    vector<int> divisors = { b }; // список делителей
+    vector<int> divisors = { b }; // СЃРїРёСЃРѕРє РґРµР»РёС‚РµР»РµР№
     auto it = find_if(divisors.begin(), divisors.end(),
         [&](int div) {
             result = find_if_nod(div);
-            return result > 1;  // прекращаем как только найдем НОД больше 1
+            return result > 1;  // РїСЂРµРєСЂР°С‰Р°РµРј РєР°Рє С‚РѕР»СЊРєРѕ РЅР°Р№РґРµРј РќРћР” Р±РѕР»СЊС€Рµ 1
         });
 
-    return result; // Возвращаем результат
+    return result; // Р’РѕР·РІСЂР°С‰Р°РµРј СЂРµР·СѓР»СЊС‚Р°С‚
 }
 
 int main() {
-    int N = 5; // Количество объектов
+    int N = 5; // РљРѕР»РёС‡РµСЃС‚РІРѕ РѕР±СЉРµРєС‚РѕРІ
     vector<unique_ptr<NaturalDivisors>> divisorsList;
 
-    // Создание N объектов
+    // РЎРѕР·РґР°РЅРёРµ N РѕР±СЉРµРєС‚РѕРІ
     for (int i = 1; i <= N; ++i) {
         divisorsList.push_back(make_unique<NaturalDivisors>(i * 10));
     }
 
-    // Вывод делителей и их среднего арифметического
+    // Р’С‹РІРѕРґ РґРµР»РёС‚РµР»РµР№ Рё РёС… СЃСЂРµРґРЅРµРіРѕ Р°СЂРёС„РјРµС‚РёС‡РµСЃРєРѕРіРѕ
     for (const auto& divisorObj : divisorsList) {
         cout << *divisorObj << endl;
         cout << "Average of divisors: " << divisorObj->averageOfDivisors() << "\n\n";
     }
 
-    // Ввод делителя от пользователя
+    // Р’РІРѕРґ РґРµР»РёС‚РµР»СЏ РѕС‚ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
     int userDivisor;
     cout << "Enter a divisor to count: ";
     cin >> userDivisor;
 
-    // Подсчет объектов с указанным делителем
+    // РџРѕРґСЃС‡РµС‚ РѕР±СЉРµРєС‚РѕРІ СЃ СѓРєР°Р·Р°РЅРЅС‹Рј РґРµР»РёС‚РµР»РµРј
     int count = count_if(divisorsList.begin(), divisorsList.end(),
         [userDivisor](const unique_ptr<NaturalDivisors>& obj) {
             return obj->getNumber() % userDivisor == 0;
@@ -173,7 +173,7 @@ int main() {
 
     cout << "Count of numbers divisible by " << userDivisor << ": " << count << endl;
 
-    // Пример копирования объекта с использованием метода copy_new
+    // РџСЂРёРјРµСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ РѕР±СЉРµРєС‚Р° СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј РјРµС‚РѕРґР° copy_new
     auto copiedObject = divisorsList[0]->copy_new();
     cout << "\nCopied object: " << *copiedObject << endl;
 
