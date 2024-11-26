@@ -8,11 +8,11 @@
 
 using namespace std;
 
-const int BSIZE = 10; // Размер игрового поля
-const char EMPTY = ' '; // Пустая клетка
-const char SHIP = 'S'; // Корабль
-const char HIT = 'X';  // Попадание
-const char MISS = '*'; // Промах
+const int BSIZE = 10; // Р Р°Р·РјРµСЂ РёРіСЂРѕРІРѕРіРѕ РїРѕР»СЏ
+const char EMPTY = ' '; // РџСѓСЃС‚Р°СЏ РєР»РµС‚РєР°
+const char SHIP = 'S'; // РљРѕСЂР°Р±Р»СЊ
+const char HIT = 'X';  // РџРѕРїР°РґР°РЅРёРµ
+const char MISS = '*'; // РџСЂРѕРјР°С…
 
 class InvalidShipPlacementException : public exception {
 public:
@@ -30,7 +30,7 @@ public:
 class GameField {
 private:
     vector<vector<char>> board;
-    vector<vector<char>> hits; // Поле для отображения атак
+    vector<vector<char>> hits; // РџРѕР»Рµ РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ Р°С‚Р°Рє
 
 public:
     GameField() {
@@ -39,11 +39,11 @@ public:
     }
 
     /**
-    * Метод для отображения игрового поля.
-    * @param revealShips Указывает, должны ли корабли быть видимыми.
+    * РњРµС‚РѕРґ РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РёРіСЂРѕРІРѕРіРѕ РїРѕР»СЏ.
+    * @param revealShips РЈРєР°Р·С‹РІР°РµС‚, РґРѕР»Р¶РЅС‹ Р»Рё РєРѕСЂР°Р±Р»Рё Р±С‹С‚СЊ РІРёРґРёРјС‹РјРё.
     */
     void displayBoard(bool revealShips = false) const {
-        // Установка цвета текста по умолчанию (белый)
+        // РЈСЃС‚Р°РЅРѕРІРєР° С†РІРµС‚Р° С‚РµРєСЃС‚Р° РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ (Р±РµР»С‹Р№)
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
         cout << "  ";
         for (int j = 0; j <BSIZE; j++) {
@@ -63,13 +63,13 @@ public:
                 if (revealShips) {
                     if (hits[i][j] == HIT || hits[i][j] == MISS) {
                         cout << "|";
-                        // Устанавливаем цвет красным для попаданий
+                        // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј С†РІРµС‚ РєСЂР°СЃРЅС‹Рј РґР»СЏ РїРѕРїР°РґР°РЅРёР№
                         if (hits[i][j] == HIT) {
-                            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12); // Красный
+                            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12); // РљСЂР°СЃРЅС‹Р№
                         }
                         cout << hits[i][j];
-                        // Возвращаем цвет текста по умолчанию
-                        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7); // Белый
+                        // Р’РѕР·РІСЂР°С‰Р°РµРј С†РІРµС‚ С‚РµРєСЃС‚Р° РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
+                        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7); // Р‘РµР»С‹Р№
                     }
                     else {
                         cout << "|" << (board[i][j] == EMPTY ? EMPTY : board[i][j]);
@@ -90,12 +90,12 @@ public:
     }
 
     /**
-    * Проверяет, находится ли корабль рядом с заданной позицией.
-    * @param x X-координата позиции.
-    * @param y Y-координата позиции.
-    * @param shipSize Размер корабля.
-    * @param horizontal Направление размещения (горизонтально или вертикально).
-    * @return true, если рядом с позицией находится другой корабль.
+    * РџСЂРѕРІРµСЂСЏРµС‚, РЅР°С…РѕРґРёС‚СЃСЏ Р»Рё РєРѕСЂР°Р±Р»СЊ СЂСЏРґРѕРј СЃ Р·Р°РґР°РЅРЅРѕР№ РїРѕР·РёС†РёРµР№.
+    * @param x X-РєРѕРѕСЂРґРёРЅР°С‚Р° РїРѕР·РёС†РёРё.
+    * @param y Y-РєРѕРѕСЂРґРёРЅР°С‚Р° РїРѕР·РёС†РёРё.
+    * @param shipSize Р Р°Р·РјРµСЂ РєРѕСЂР°Р±Р»СЏ.
+    * @param horizontal РќР°РїСЂР°РІР»РµРЅРёРµ СЂР°Р·РјРµС‰РµРЅРёСЏ (РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅРѕ РёР»Рё РІРµСЂС‚РёРєР°Р»СЊРЅРѕ).
+    * @return true, РµСЃР»Рё СЂСЏРґРѕРј СЃ РїРѕР·РёС†РёРµР№ РЅР°С…РѕРґРёС‚СЃСЏ РґСЂСѓРіРѕР№ РєРѕСЂР°Р±Р»СЊ.
     */
     bool isAdjacent(int x, int y, int shipSize, bool horizontal) const {
         for (int dx = -1; dx <= 1; dx++) {
@@ -129,11 +129,11 @@ public:
     }
 
     /**
-    * Размещает корабль на поле.
-    * @param x X-координата начала размещения.
-    * @param y Y-координата начала размещения.
-    * @param shipSize Размер корабля.
-    * @param horizontal Направление размещения (true - горизонтально, false - вертикально).
+    * Р Р°Р·РјРµС‰Р°РµС‚ РєРѕСЂР°Р±Р»СЊ РЅР° РїРѕР»Рµ.
+    * @param x X-РєРѕРѕСЂРґРёРЅР°С‚Р° РЅР°С‡Р°Р»Р° СЂР°Р·РјРµС‰РµРЅРёСЏ.
+    * @param y Y-РєРѕРѕСЂРґРёРЅР°С‚Р° РЅР°С‡Р°Р»Р° СЂР°Р·РјРµС‰РµРЅРёСЏ.
+    * @param shipSize Р Р°Р·РјРµСЂ РєРѕСЂР°Р±Р»СЏ.
+    * @param horizontal РќР°РїСЂР°РІР»РµРЅРёРµ СЂР°Р·РјРµС‰РµРЅРёСЏ (true - РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅРѕ, false - РІРµСЂС‚РёРєР°Р»СЊРЅРѕ).
     */
     void placeShip(int x, int y, int shipSize, bool horizontal) {
         if (horizontal) {
@@ -149,8 +149,8 @@ public:
     }
 
     /**
-    * Генерирует корабли случайным образом на поле.
-    * @param N значение от которого зависит кол-во сгенерированных кораблей
+    * Р“РµРЅРµСЂРёСЂСѓРµС‚ РєРѕСЂР°Р±Р»Рё СЃР»СѓС‡Р°Р№РЅС‹Рј РѕР±СЂР°Р·РѕРј РЅР° РїРѕР»Рµ.
+    * @param N Р·РЅР°С‡РµРЅРёРµ РѕС‚ РєРѕС‚РѕСЂРѕРіРѕ Р·Р°РІРёСЃРёС‚ РєРѕР»-РІРѕ СЃРіРµРЅРµСЂРёСЂРѕРІР°РЅРЅС‹С… РєРѕСЂР°Р±Р»РµР№
     */
     void generateShips(int N) {
         int counts[4] = { (N * 40) / 100, (N * 30) / 100, (N * 20) / 100, (N * 10) / 100 };
@@ -159,7 +159,7 @@ public:
             for (int j = 0; j < counts[i]; j++) {
                 bool placed = false;
                 while (!placed) {
-                    int orientation = rand() % 2; // 0 - горизонтально, 1 - вертикально
+                    int orientation = rand() % 2; // 0 - РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅРѕ, 1 - РІРµСЂС‚РёРєР°Р»СЊРЅРѕ
                     int x = rand() % BSIZE;
                     int y = rand() % BSIZE;
 
@@ -173,33 +173,33 @@ public:
     }
 
     /**
-    * Обрабатывает атаку по заданным координатам.
-    * @param y Y-координата атаки.
-    * @param x X-координата атаки.
-    * @return true, если атаковано успешно (попадание), и false, если промах.
-    * @throw std::invalid_argument Если координаты выходят за пределы поля или клетка уже атакована.
+    * РћР±СЂР°Р±Р°С‚С‹РІР°РµС‚ Р°С‚Р°РєСѓ РїРѕ Р·Р°РґР°РЅРЅС‹Рј РєРѕРѕСЂРґРёРЅР°С‚Р°Рј.
+    * @param y Y-РєРѕРѕСЂРґРёРЅР°С‚Р° Р°С‚Р°РєРё.
+    * @param x X-РєРѕРѕСЂРґРёРЅР°С‚Р° Р°С‚Р°РєРё.
+    * @return true, РµСЃР»Рё Р°С‚Р°РєРѕРІР°РЅРѕ СѓСЃРїРµС€РЅРѕ (РїРѕРїР°РґР°РЅРёРµ), Рё false, РµСЃР»Рё РїСЂРѕРјР°С….
+    * @throw std::invalid_argument Р•СЃР»Рё РєРѕРѕСЂРґРёРЅР°С‚С‹ РІС‹С…РѕРґСЏС‚ Р·Р° РїСЂРµРґРµР»С‹ РїРѕР»СЏ РёР»Рё РєР»РµС‚РєР° СѓР¶Рµ Р°С‚Р°РєРѕРІР°РЅР°.
     */
     bool attack(int y, int x) {
         if (x < 0 || x >= BSIZE || y < 0 || y >= BSIZE) 
-            throw invalid_argument("Out of field."); // Проверка выхода за границы
+            throw invalid_argument("Out of field."); // РџСЂРѕРІРµСЂРєР° РІС‹С…РѕРґР° Р·Р° РіСЂР°РЅРёС†С‹
         if (hits[x][y] != EMPTY) 
-            throw invalid_argument("This place were atackted already."); // Если уже атаковали эту клетку
+            throw invalid_argument("This place were atackted already."); // Р•СЃР»Рё СѓР¶Рµ Р°С‚Р°РєРѕРІР°Р»Рё СЌС‚Сѓ РєР»РµС‚РєСѓ
 
         if (board[x][y] == SHIP) {
-            hits[x][y] = HIT; // Отметить попадание
+            hits[x][y] = HIT; // РћС‚РјРµС‚РёС‚СЊ РїРѕРїР°РґР°РЅРёРµ
             cout << "Hit!" << endl;
             return true;
         }
         else {
-            hits[x][y] = MISS; // Отметить промах
+            hits[x][y] = MISS; // РћС‚РјРµС‚РёС‚СЊ РїСЂРѕРјР°С…
             cout << "Miss!" << endl;
             return false;
         }
     }
 
     /**
-    * Подсчитывает количество живых частей кораблей на игровом поле.
-    * @return Количество живых частей кораблей.
+    * РџРѕРґСЃС‡РёС‚С‹РІР°РµС‚ РєРѕР»РёС‡РµСЃС‚РІРѕ Р¶РёРІС‹С… С‡Р°СЃС‚РµР№ РєРѕСЂР°Р±Р»РµР№ РЅР° РёРіСЂРѕРІРѕРј РїРѕР»Рµ.
+    * @return РљРѕР»РёС‡РµСЃС‚РІРѕ Р¶РёРІС‹С… С‡Р°СЃС‚РµР№ РєРѕСЂР°Р±Р»РµР№.
     */
     int countLiveSpots() const {
         int count = 0;
@@ -214,16 +214,16 @@ public:
     }
 
     /**
-    * Проверяет, есть ли живые корабли на поле.
-    * @return true, если есть живые части кораблей; иначе false.
+    * РџСЂРѕРІРµСЂСЏРµС‚, РµСЃС‚СЊ Р»Рё Р¶РёРІС‹Рµ РєРѕСЂР°Р±Р»Рё РЅР° РїРѕР»Рµ.
+    * @return true, РµСЃР»Рё РµСЃС‚СЊ Р¶РёРІС‹Рµ С‡Р°СЃС‚Рё РєРѕСЂР°Р±Р»РµР№; РёРЅР°С‡Рµ false.
     */
     bool hasShips() const {
         return countLiveSpots() > 0;
     }
 
     /**
-    * Подсчитывает количество попаданий по кораблям.
-    * @return Количество попаданий по кораблям.
+    * РџРѕРґСЃС‡РёС‚С‹РІР°РµС‚ РєРѕР»РёС‡РµСЃС‚РІРѕ РїРѕРїР°РґР°РЅРёР№ РїРѕ РєРѕСЂР°Р±Р»СЏРј.
+    * @return РљРѕР»РёС‡РµСЃС‚РІРѕ РїРѕРїР°РґР°РЅРёР№ РїРѕ РєРѕСЂР°Р±Р»СЏРј.
     */
     int countHits() const {
         int hitsCount = 0;
@@ -238,37 +238,37 @@ public:
     }
 
     /**
-    *Подсчитывает количество затопленных кораблей.
-    *@return Количество затопленных кораблей.
+    *РџРѕРґСЃС‡РёС‚С‹РІР°РµС‚ РєРѕР»РёС‡РµСЃС‚РІРѕ Р·Р°С‚РѕРїР»РµРЅРЅС‹С… РєРѕСЂР°Р±Р»РµР№.
+    *@return РљРѕР»РёС‡РµСЃС‚РІРѕ Р·Р°С‚РѕРїР»РµРЅРЅС‹С… РєРѕСЂР°Р±Р»РµР№.
     */
     int countSunkShips() const {
         int sunkShips = 0;
-        vector<vector<bool>> checked(BSIZE, vector<bool>(BSIZE, false)); // Ведение учёта проверенных клеток
+        vector<vector<bool>> checked(BSIZE, vector<bool>(BSIZE, false)); // Р’РµРґРµРЅРёРµ СѓС‡С‘С‚Р° РїСЂРѕРІРµСЂРµРЅРЅС‹С… РєР»РµС‚РѕРє
 
         for (int x = 0; x < BSIZE; x++) {
             for (int y = 0; y < BSIZE; y++) {
-                // Если нашли корабль, который еще не проверяли
+                // Р•СЃР»Рё РЅР°С€Р»Рё РєРѕСЂР°Р±Р»СЊ, РєРѕС‚РѕСЂС‹Р№ РµС‰Рµ РЅРµ РїСЂРѕРІРµСЂСЏР»Рё
                 if (board[x][y] == SHIP && !checked[x][y]) {
-                    // Проверка на горизонтальное или вертикальное расположение
+                    // РџСЂРѕРІРµСЂРєР° РЅР° РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅРѕРµ РёР»Рё РІРµСЂС‚РёРєР°Р»СЊРЅРѕРµ СЂР°СЃРїРѕР»РѕР¶РµРЅРёРµ
                     bool isSunk = true;
 
-                    // Проверяем горизонтально
+                    // РџСЂРѕРІРµСЂСЏРµРј РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅРѕ
                     for (int dy = 0; dy < BSIZE && y + dy < BSIZE && board[x][y + dy] == SHIP; dy++) {
-                        checked[x][y + dy] = true; // Помечаем клетку как проверенную
-                        if (hits[x][y + dy] != HIT) { // Проверка на попадание
+                        checked[x][y + dy] = true; // РџРѕРјРµС‡Р°РµРј РєР»РµС‚РєСѓ РєР°Рє РїСЂРѕРІРµСЂРµРЅРЅСѓСЋ
+                        if (hits[x][y + dy] != HIT) { // РџСЂРѕРІРµСЂРєР° РЅР° РїРѕРїР°РґР°РЅРёРµ
                             isSunk = false;
                         }
                     }
 
-                    // Проверяем вертикально
+                    // РџСЂРѕРІРµСЂСЏРµРј РІРµСЂС‚РёРєР°Р»СЊРЅРѕ
                     for (int dx = 0; dx < BSIZE && x + dx < BSIZE && board[x + dx][y] == SHIP; dx++) {
-                        checked[x + dx][y] = true; // Помечаем клетку как проверенную
-                        if (hits[x + dx][y] != HIT) { // Проверка на попадание
+                        checked[x + dx][y] = true; // РџРѕРјРµС‡Р°РµРј РєР»РµС‚РєСѓ РєР°Рє РїСЂРѕРІРµСЂРµРЅРЅСѓСЋ
+                        if (hits[x + dx][y] != HIT) { // РџСЂРѕРІРµСЂРєР° РЅР° РїРѕРїР°РґР°РЅРёРµ
                             isSunk = false;
                         }
                     }
 
-                    // Если корабль полностью уничтожен
+                    // Р•СЃР»Рё РєРѕСЂР°Р±Р»СЊ РїРѕР»РЅРѕСЃС‚СЊСЋ СѓРЅРёС‡С‚РѕР¶РµРЅ
                     if (isSunk) {
                         sunkShips++;
                     }
@@ -279,8 +279,8 @@ public:
     }
 
     /**
-    * Размещает корабли вручную на игровом поле.
-    * @param N значение от которого зависит кол-во сгенерированных кораблей
+    * Р Р°Р·РјРµС‰Р°РµС‚ РєРѕСЂР°Р±Р»Рё РІСЂСѓС‡РЅСѓСЋ РЅР° РёРіСЂРѕРІРѕРј РїРѕР»Рµ.
+    * @param N Р·РЅР°С‡РµРЅРёРµ РѕС‚ РєРѕС‚РѕСЂРѕРіРѕ Р·Р°РІРёСЃРёС‚ РєРѕР»-РІРѕ СЃРіРµРЅРµСЂРёСЂРѕРІР°РЅРЅС‹С… РєРѕСЂР°Р±Р»РµР№
     */
     void manualPlaceShips(int N) {
         int counts[4] = { (N * 40) / 100, (N * 30) / 100, (N * 20) / 100, (N * 10) / 100 };
@@ -293,17 +293,17 @@ public:
                         cout << "Enter the coordinates and direction to place a ship of size " << ships[i].size << " (form x:y:L/R/T/B) ";
                         string input;
                         cin >> input;                    
-                        int y = input[0] - '0';  // x-координата
-                        int x = input[2] - '0';  // y-координата
-                        char direction = input[4]; // направление              
+                        int y = input[0] - '0';  // x-РєРѕРѕСЂРґРёРЅР°С‚Р°
+                        int x = input[2] - '0';  // y-РєРѕРѕСЂРґРёРЅР°С‚Р°
+                        char direction = input[4]; // РЅР°РїСЂР°РІР»РµРЅРёРµ              
 
-                        // Проверка направления
+                        // РџСЂРѕРІРµСЂРєР° РЅР°РїСЂР°РІР»РµРЅРёСЏ
                         if (direction != 'L' && direction != 'R' && direction != 'T' && direction != 'B') {
                             throw InvalidShipPlacementException();
                         }                    
                         
-                        bool horizontal = (direction == 'L' || direction == 'R'); // Горизонтальное размещение                    
-                        bool canPlace = false;  // Проверяем возможность размещения
+                        bool horizontal = (direction == 'L' || direction == 'R'); // Р“РѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅРѕРµ СЂР°Р·РјРµС‰РµРЅРёРµ                    
+                        bool canPlace = false;  // РџСЂРѕРІРµСЂСЏРµРј РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ СЂР°Р·РјРµС‰РµРЅРёСЏ
 
                         if (horizontal) {
                             if (direction == 'L') {
@@ -321,7 +321,7 @@ public:
                                 canPlace = true;
                             }
                         }
-                        else { // Вертикальное размещение
+                        else { // Р’РµСЂС‚РёРєР°Р»СЊРЅРѕРµ СЂР°Р·РјРµС‰РµРЅРёРµ
                             if (direction == 'T') {
                                 if (y - ships[i].size + 1 < 0 || isAdjacent(x, y - ships[i].size + 1, ships[i].size, false)) {
                                     throw InvalidShipPlacementException();
@@ -339,7 +339,7 @@ public:
                         }  
                         
                     if (canPlace) {
-                            break; // Успешно размещён, выходим из цикла
+                            break; // РЈСЃРїРµС€РЅРѕ СЂР°Р·РјРµС‰С‘РЅ, РІС‹С…РѕРґРёРј РёР· С†РёРєР»Р°
                         }
                     }
                     catch (const InvalidShipPlacementException& e) {
@@ -353,8 +353,8 @@ public:
 
 class Player {
 private:
-    GameField gameField; // Поле игрока
-    string name; // Имя игрока
+    GameField gameField; // РџРѕР»Рµ РёРіСЂРѕРєР°
+    string name; // РРјСЏ РёРіСЂРѕРєР°
 
 public:
     Player(const string& playerName) : name(playerName) {}
@@ -364,16 +364,16 @@ public:
     }
 
     /**
-    * Размещает корабли вручную на игровом поле.
-    * @param N Общее количество клеток, которое можно использовать для размещения кораблей.
+    * Р Р°Р·РјРµС‰Р°РµС‚ РєРѕСЂР°Р±Р»Рё РІСЂСѓС‡РЅСѓСЋ РЅР° РёРіСЂРѕРІРѕРј РїРѕР»Рµ.
+    * @param N РћР±С‰РµРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РєР»РµС‚РѕРє, РєРѕС‚РѕСЂРѕРµ РјРѕР¶РЅРѕ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РґР»СЏ СЂР°Р·РјРµС‰РµРЅРёСЏ РєРѕСЂР°Р±Р»РµР№.
     */
     void manualPlaceShips(int N) {
         gameField.manualPlaceShips(N);
     }
 
     /**
-    * Отображает игровое поле игрока.
-    * @param revealShips Указывает, должны ли корабли быть видимыми.
+    * РћС‚РѕР±СЂР°Р¶Р°РµС‚ РёРіСЂРѕРІРѕРµ РїРѕР»Рµ РёРіСЂРѕРєР°.
+    * @param revealShips РЈРєР°Р·С‹РІР°РµС‚, РґРѕР»Р¶РЅС‹ Р»Рё РєРѕСЂР°Р±Р»Рё Р±С‹С‚СЊ РІРёРґРёРјС‹РјРё.
     */
     void displayBoard(bool revealShips = false) const {
         cout << name << "'s Board:" << endl;
@@ -381,40 +381,40 @@ public:
     }
 
     /**
-    * Возвращает ссылку на поле игрока.
-    * @return Ссылка на объект GameField.
+    * Р’РѕР·РІСЂР°С‰Р°РµС‚ СЃСЃС‹Р»РєСѓ РЅР° РїРѕР»Рµ РёРіСЂРѕРєР°.
+    * @return РЎСЃС‹Р»РєР° РЅР° РѕР±СЉРµРєС‚ GameField.
     */
     GameField& getGameField() {
         return gameField;
     }
 
     /**
-    * Возвращает имя игрока.
-    * @return Имя игрока.
+    * Р’РѕР·РІСЂР°С‰Р°РµС‚ РёРјСЏ РёРіСЂРѕРєР°.
+    * @return РРјСЏ РёРіСЂРѕРєР°.
     */
     string getName() const {
         return name;
     }
 
     /**
-     * Подсчитывает количество живых частей кораблей.
-     * @return Количество живых частей кораблей.
+     * РџРѕРґСЃС‡РёС‚С‹РІР°РµС‚ РєРѕР»РёС‡РµСЃС‚РІРѕ Р¶РёРІС‹С… С‡Р°СЃС‚РµР№ РєРѕСЂР°Р±Р»РµР№.
+     * @return РљРѕР»РёС‡РµСЃС‚РІРѕ Р¶РёРІС‹С… С‡Р°СЃС‚РµР№ РєРѕСЂР°Р±Р»РµР№.
      */
     int countLiveSpots() const {
         return gameField.countLiveSpots();
     }
 
     /**
-    * Подсчитывает количество попаданий по кораблям.
-    * @return Количество попаданий по кораблям.
+    * РџРѕРґСЃС‡РёС‚С‹РІР°РµС‚ РєРѕР»РёС‡РµСЃС‚РІРѕ РїРѕРїР°РґР°РЅРёР№ РїРѕ РєРѕСЂР°Р±Р»СЏРј.
+    * @return РљРѕР»РёС‡РµСЃС‚РІРѕ РїРѕРїР°РґР°РЅРёР№ РїРѕ РєРѕСЂР°Р±Р»СЏРј.
     */
     int countHits() const {
         return gameField.countHits();
     }
 
     /**
-    * Подсчитывает количество затопленных кораблей.
-    * @return Количество затопленных кораблей.
+    * РџРѕРґСЃС‡РёС‚С‹РІР°РµС‚ РєРѕР»РёС‡РµСЃС‚РІРѕ Р·Р°С‚РѕРїР»РµРЅРЅС‹С… РєРѕСЂР°Р±Р»РµР№.
+    * @return РљРѕР»РёС‡РµСЃС‚РІРѕ Р·Р°С‚РѕРїР»РµРЅРЅС‹С… РєРѕСЂР°Р±Р»РµР№.
     */
     int countSunkShips() const {
         return gameField.countSunkShips();
@@ -423,49 +423,49 @@ public:
 
 class ComputerPlayer : public Player {
 private:
-    vector<pair<int, int>> previousHits; // Список предыдущих попаданий
-    int lastHitX = -1; // X координата последнего попадания
-    int lastHitY = -1; // Y координата последнего попадания
-    bool searchingMode = false; // Режим поиска корабля
+    vector<pair<int, int>> previousHits; // РЎРїРёСЃРѕРє РїСЂРµРґС‹РґСѓС‰РёС… РїРѕРїР°РґР°РЅРёР№
+    int lastHitX = -1; // X РєРѕРѕСЂРґРёРЅР°С‚Р° РїРѕСЃР»РµРґРЅРµРіРѕ РїРѕРїР°РґР°РЅРёСЏ
+    int lastHitY = -1; // Y РєРѕРѕСЂРґРёРЅР°С‚Р° РїРѕСЃР»РµРґРЅРµРіРѕ РїРѕРїР°РґР°РЅРёСЏ
+    bool searchingMode = false; // Р РµР¶РёРј РїРѕРёСЃРєР° РєРѕСЂР°Р±Р»СЏ
 
 public:
     ComputerPlayer(const string& playerName) : Player(playerName) {}
 
 
     /**
-    *Выполняет ход компьютера, атакуя противника.
-    *@param enemy Игрок(противник), на которого будет произведена атака.
+    *Р’С‹РїРѕР»РЅСЏРµС‚ С…РѕРґ РєРѕРјРїСЊСЋС‚РµСЂР°, Р°С‚Р°РєСѓСЏ РїСЂРѕС‚РёРІРЅРёРєР°.
+    *@param enemy РРіСЂРѕРє(РїСЂРѕС‚РёРІРЅРёРє), РЅР° РєРѕС‚РѕСЂРѕРіРѕ Р±СѓРґРµС‚ РїСЂРѕРёР·РІРµРґРµРЅР° Р°С‚Р°РєР°.
     */
     void computerTurn(Player& enemy) {
         int x, y;
 
         cout << "\nPlayer 2 (comp) is attacking..." << endl;
         if (searchingMode) {
-            // Если есть охота на корабль, ищем соседние клетки
+            // Р•СЃР»Рё РµСЃС‚СЊ РѕС…РѕС‚Р° РЅР° РєРѕСЂР°Р±Р»СЊ, РёС‰РµРј СЃРѕСЃРµРґРЅРёРµ РєР»РµС‚РєРё
             bool hitFound = false;
 
-            // Определяем все 4 возможные направления
+            // РћРїСЂРµРґРµР»СЏРµРј РІСЃРµ 4 РІРѕР·РјРѕР¶РЅС‹Рµ РЅР°РїСЂР°РІР»РµРЅРёСЏ
             pair<int, int> directions[] = {
-                {0, 1},  // Вправо
-                {0, -1}, // Влево
-                {1, 0},  // Вниз
-                {-1, 0}  // Вверх
+                {0, 1},  // Р’РїСЂР°РІРѕ
+                {0, -1}, // Р’Р»РµРІРѕ
+                {1, 0},  // Р’РЅРёР·
+                {-1, 0}  // Р’РІРµСЂС…
             };
 
             for (const auto& dir : directions) {
                 int newX = lastHitX + dir.first;
                 int newY = lastHitY + dir.second;
 
-                // Проверяем, находятся ли новые координаты в пределах поля
+                // РџСЂРѕРІРµСЂСЏРµРј, РЅР°С…РѕРґСЏС‚СЃСЏ Р»Рё РЅРѕРІС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹ РІ РїСЂРµРґРµР»Р°С… РїРѕР»СЏ
                 if (newX >= 0 && newX < BSIZE && newY >= 0 && newY < BSIZE) {
                     try {
                         if (enemy.getGameField().attack(newY, newX)) {
                             hitFound = true;
                             lastHitX = newX;
                             lastHitY = newY;
-                            previousHits.push_back({ newX, newY }); // Запоминаем попадание
+                            previousHits.push_back({ newX, newY }); // Р—Р°РїРѕРјРёРЅР°РµРј РїРѕРїР°РґР°РЅРёРµ
                             cout << "Hit found at: (" << newY << ", " << newX << ")" << endl;
-                            break; // Выходим из цикла, если нашли попадание
+                            break; // Р’С‹С…РѕРґРёРј РёР· С†РёРєР»Р°, РµСЃР»Рё РЅР°С€Р»Рё РїРѕРїР°РґР°РЅРёРµ
                         }
                     }
                     catch (const invalid_argument& e) {
@@ -474,35 +474,35 @@ public:
                 }
             }
 
-            // Если не нашли новую клетку, то возвращаемся к случайным атакам
+            // Р•СЃР»Рё РЅРµ РЅР°С€Р»Рё РЅРѕРІСѓСЋ РєР»РµС‚РєСѓ, С‚Рѕ РІРѕР·РІСЂР°С‰Р°РµРјСЃСЏ Рє СЃР»СѓС‡Р°Р№РЅС‹Рј Р°С‚Р°РєР°Рј
             if (!hitFound) {
                 searchingMode = false;
             }
         }
 
         if (!searchingMode) {
-            // Случайный выстрел
+            // РЎР»СѓС‡Р°Р№РЅС‹Р№ РІС‹СЃС‚СЂРµР»
             do {
                 x = rand() % BSIZE;
                 y = rand() % BSIZE;
-            } while (!enemy.getGameField().hasShips()); // Проверяем, что есть корабли
+            } while (!enemy.getGameField().hasShips()); // РџСЂРѕРІРµСЂСЏРµРј, С‡С‚Рѕ РµСЃС‚СЊ РєРѕСЂР°Р±Р»Рё
 
             try {
                 if (enemy.getGameField().attack(y, x)) {
-                    // Если попали, переводим в режим поиска
+                    // Р•СЃР»Рё РїРѕРїР°Р»Рё, РїРµСЂРµРІРѕРґРёРј РІ СЂРµР¶РёРј РїРѕРёСЃРєР°
                     searchingMode = true;
                     lastHitX = x;
                     lastHitY = y;
-                    previousHits.push_back({ x, y }); // Запоминаем попадание
+                    previousHits.push_back({ x, y }); // Р—Р°РїРѕРјРёРЅР°РµРј РїРѕРїР°РґР°РЅРёРµ
                     cout << "Random hit found at: (" << y << ", " << x << ")" << endl;
                 }
             }
             catch (const invalid_argument& e) {
-                // Выводим сообщение, если клетка уже атакована
+                // Р’С‹РІРѕРґРёРј СЃРѕРѕР±С‰РµРЅРёРµ, РµСЃР»Рё РєР»РµС‚РєР° СѓР¶Рµ Р°С‚Р°РєРѕРІР°РЅР°
                 cout << e.what() << endl;
             }
         }
-        enemy.displayBoard();           //Вывод действий компьютера
+        enemy.displayBoard();           //Р’С‹РІРѕРґ РґРµР№СЃС‚РІРёР№ РєРѕРјРїСЊСЋС‚РµСЂР°
     }
 };
 
@@ -518,7 +518,7 @@ int main() {
     cin >> N;
 
     while (N < 10) {
-        cout << "Пожалуйста, введите число больше или равное 10." << endl;
+        cout << "РџРѕР¶Р°Р»СѓР№СЃС‚Р°, РІРІРµРґРёС‚Рµ С‡РёСЃР»Рѕ Р±РѕР»СЊС€Рµ РёР»Рё СЂР°РІРЅРѕРµ 10." << endl;
         cin >> N;
     }
 
@@ -530,7 +530,7 @@ int main() {
     computer.generateShips(N);
 
     while (a == 0) {
-        // Ход игрока 1
+        // РҐРѕРґ РёРіСЂРѕРєР° 1
         computer.displayBoard();
 
         string input;
@@ -545,21 +545,21 @@ int main() {
                 break;
             }
 
-            // Проверка на ввод
+            // РџСЂРѕРІРµСЂРєР° РЅР° РІРІРѕРґ
             if (input.length() > 3 || !isdigit(input[0]) || input[1] != ':' || !isdigit(input[2])) {
                 cout << "Incorrect input. Make sure that you enter the coordinates in the x:y format, where x and y are digits." << endl;
                 continue;
             }
 
-            x1 = input[0] - '0'; // Перевод символа в число
+            x1 = input[0] - '0'; // РџРµСЂРµРІРѕРґ СЃРёРјРІРѕР»Р° РІ С‡РёСЃР»Рѕ
             y1 = input[2] - '0';
 
             try {
-                computer.getGameField().attack(x1, y1); // Пытаемся атаковать
-                break; // Успешно атаковали, выходим из цикла
+                computer.getGameField().attack(x1, y1); // РџС‹С‚Р°РµРјСЃСЏ Р°С‚Р°РєРѕРІР°С‚СЊ
+                break; // РЈСЃРїРµС€РЅРѕ Р°С‚Р°РєРѕРІР°Р»Рё, РІС‹С…РѕРґРёРј РёР· С†РёРєР»Р°
             }
             catch (const invalid_argument& e) {
-                cout << e.what() << endl; // Выводим сообщение об ошибке
+                cout << e.what() << endl; // Р’С‹РІРѕРґРёРј СЃРѕРѕР±С‰РµРЅРёРµ РѕР± РѕС€РёР±РєРµ
             }
 
         }
@@ -569,7 +569,7 @@ int main() {
             break;
         }
 
-        // Ход компьютерного противника
+        // РҐРѕРґ РєРѕРјРїСЊСЋС‚РµСЂРЅРѕРіРѕ РїСЂРѕС‚РёРІРЅРёРєР°
         computer.computerTurn(player1);
         player1Hits_total++;
         computerHits_total++;
@@ -580,7 +580,7 @@ int main() {
         }
     }
 
-    // Вывод результатов боя
+    // Р’С‹РІРѕРґ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ Р±РѕСЏ
     cout << "\n\n Game end!\n" << endl;
     cout << "Field " << player1.getName() << " (with ships):" << endl;
     player1.displayBoard(true);
@@ -596,7 +596,7 @@ int main() {
     cout << "Accuracy " << player1.getName() << ": " << player1Accuracy << "%" << endl;
     cout << "Accuracy " << computer.getName() << ": " << computerAccuracy << "%" << endl;
 
-    // Вывод количества уничтоженных кораблей
+    // Р’С‹РІРѕРґ РєРѕР»РёС‡РµСЃС‚РІР° СѓРЅРёС‡С‚РѕР¶РµРЅРЅС‹С… РєРѕСЂР°Р±Р»РµР№
     cout << "Destroyed ships of " << player1.getName() << ": " << player1.countSunkShips() << endl;
     cout << "Destroyed ships of " << computer.getName() << ": " << computer.countSunkShips() << endl;
 
